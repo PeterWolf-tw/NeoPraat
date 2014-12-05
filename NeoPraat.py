@@ -8,7 +8,7 @@ from PySide.QtGui import *
 # can be used to customize the application's appearance and behavior
 qt_app = QApplication(sys.argv)
  
-class AbsolutePositioningExample(QWidget):
+class MainWindow(QWidget):
     ''' An example of PySide absolute positioning; the main window
         inherits from QWidget, a convenient widget for an empty window. '''
     def __init__(self):
@@ -18,7 +18,7 @@ class AbsolutePositioningExample(QWidget):
         # We have to set the size of the main window
         # ourselves, since we control the entire layout
         self.setMinimumSize(600, 700)
-        self.setWindowTitle('Dynamic Greeter')
+        self.setWindowTitle('NeoPraat')
  
         # Create the controls with this object as their parent and set
         # their position individually; each row is a label followed by
@@ -87,5 +87,5 @@ class AbsolutePositioningExample(QWidget):
         qt_app.exec_()
  
 # Create an instance of the application window and run it
-app = AbsolutePositioningExample()
+app = MainWindow()
 app.run()
