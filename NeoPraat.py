@@ -17,7 +17,7 @@ class AbsolutePositioningExample(QWidget):
  
         # We have to set the size of the main window
         # ourselves, since we control the entire layout
-        self.setMinimumSize(600, 900)
+        self.setMinimumSize(600, 700)
         self.setWindowTitle('Dynamic Greeter')
  
         # Create the controls with this object as their parent and set
