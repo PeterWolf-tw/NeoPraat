@@ -1,1 +1,19 @@
-{"NeoPraat": "&NeoPraat", "Open": "&Open", "About NeoPraat": "&About NeoPraat", "New Script": "&New Script", "Open Script":"&Open Script", "Goodies": "&Goodies", "Preferences": "&Preferences", "Technical": "&Technical", "Quit": "&Quit", "Save": "&Save", "Help": "&Help"}
+{"NeoPraat"       : "&NeoPraat", 
+    "About NeoPraat" : "&About NeoPraat", 
+    "New Script"     : "&New Script", 
+    "Open Script"    : "&Open Script", 
+    "Goodies"        : "&Goodies", 
+    "Preferences"    : "&Preferences", 
+    "Technical"      : "&Technical",
+    "Quit"           : "&Quit",
+ "New"            : "&New", 
+    "Record mono track sound"   : "Record mono track sound", 
+    "Record stereo track sound" : "Record stereo track sound", 
+    "Create sound"              : "Create sound", 
+        "Create pure tone"    : "Create pure tone",
+        "Create complex tone" : "Create complex tone",
+        "Create from formula" : "Create from formula"
+ "Open"           : "&Open", 
+ "Save"           : "&Save", 
+ "Help": "&Help"
+}

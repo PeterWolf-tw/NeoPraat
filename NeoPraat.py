@@ -54,7 +54,7 @@ class MainWindow(QWidget):
         
     def createMenu(self):
         multiLang = multiLanguage()
-        locale = json.loads(open("./locale/{0}.json".format(multiLang.languageSetting())).read())
+        locale = json.load(open("./locale/{0}.json".format(multiLang.languageSetting())))
         self.menuBar       = QtGui.QMenuBar()
         self.neoPraatMenu  = QtGui.QMenu(locale["NeoPraat"], self)
         self.aboutNeoPraat = self.neoPraatMenu.addAction(locale["About NeoPraat"])
