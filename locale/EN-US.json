@@ -2,10 +2,14 @@
     "About NeoPraat" : "&About NeoPraat", 
     "New Script"     : "&New Script", 
     "Open Script"    : "&Open Script", 
-    "Goodies"        : "&Goodies", 
+    "Calculator"     : "Calculator",
     "Preferences"    : "&Preferences", 
-    "Technical"      : "&Technical",
+        "Sound Recording Preferences" : "Sound Recording Preferences",
+        "Sound Playing Preferences"   : "Sound Playing Preferences",
+        "NeoPraat Preferences"        : "NeoPraat Preferences",
     "Quit"           : "&Quit",
+    
+    
  "New"            : "&New", 
     "Record mono track sound"   : "Record mono track sound", 
     "Record stereo track sound" : "Record stereo track sound", 
