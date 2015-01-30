@@ -1,0 +1,1503 @@
+./dwtools/Makefile:27:	LFCC.o LongSound_extensions.o \
+./dwtools/Makefile-28-	KlattGrid.o KlattGridEditors.o KlattTable.o \
+./dwtools/Makefile-29-	Ltas_extensions.o \
+--
+./dwtools/LongSound_extensions.cpp:1:/* LongSound_extensions.c
+./dwtools/LongSound_extensions.cpp-2- *
+./dwtools/LongSound_extensions.cpp-3- * Copyright (C) 1993-2013 David Weenink
+--
+./dwtools/LongSound_extensions.cpp:32:#include "LongSound_extensions.h"
+./dwtools/LongSound_extensions.cpp-33-
+./dwtools/LongSound_extensions.cpp-34-#if defined (_WIN32)
+--
+./dwtools/LongSound_extensions.cpp:50:static void _LongSound_to_multichannel_buffer (LongSound me, short *buffer, long nbuf,
+./dwtools/LongSound_extensions.cpp-51-        int nchannels, int ichannel, long ibuf) {
+./dwtools/LongSound_extensions.cpp-52-	long numberOfReads = (my nx - 1) / nbuf + 1;
+--
+./dwtools/LongSound_extensions.cpp:58:		LongSound_readAudioToShort (me, my buffer, imin, n_to_read);
+./dwtools/LongSound_extensions.cpp-59-
+./dwtools/LongSound_extensions.cpp-60-		for (long i = 1; i <= n_to_read; i++) {
+--
+./dwtools/LongSound_extensions.cpp:71:void LongSounds_writeToStereoAudioFile16 (LongSound me, LongSound thee, int audioFileType, MelderFile file) {
+./dwtools/LongSound_extensions.cpp-72-	try {
+./dwtools/LongSound_extensions.cpp-73-		long nbuf = my nmax < thy nmax ? my nmax : thy nmax;
+--
+./dwtools/LongSound_extensions.cpp:78:			Melder_throw ("LongSounds must be mono.");
+./dwtools/LongSound_extensions.cpp-79-		}
+./dwtools/LongSound_extensions.cpp-80-
+--
+./dwtools/LongSound_extensions.cpp:100:			_LongSound_to_multichannel_buffer (me, buffer.peek(), nbuf, nchannels, 1, i);
+./dwtools/LongSound_extensions.cpp:101:			_LongSound_to_multichannel_buffer (thee, buffer.peek(), nbuf, nchannels, 2, i);
+./dwtools/LongSound_extensions.cpp-102-			MelderFile_writeShortToAudio (file, nchannels, Melder_defaultAudioFileEncoding (audioFileType,
+./dwtools/LongSound_extensions.cpp-103-                numberOfBitsPerSamplePoint), buffer.peek(), n_to_write);
+--
+./dwtools/LongSound_extensions.cpp:161:static void writePartToOpenFile16 (LongSound me, int audioFileType, long imin, long n, MelderFile file) {
+./dwtools/LongSound_extensions.cpp-162-	long offset = imin;
+./dwtools/LongSound_extensions.cpp-163-	long numberOfBuffers = (n - 1) / my nmax + 1, numberOfBitsPerSamplePoint = 16;
+--
+./dwtools/LongSound_extensions.cpp:168:			LongSound_readAudioToShort (me, my buffer, offset, numberOfSamplesToCopy);
+./dwtools/LongSound_extensions.cpp-169-			offset += numberOfSamplesToCopy;
+./dwtools/LongSound_extensions.cpp-170-			MelderFile_writeShortToAudio (file, my numberOfChannels,
+--
+./dwtools/LongSound_extensions.cpp:181:void LongSounds_appendToExistingSoundFile (Collection me, MelderFile file) {
+./dwtools/LongSound_extensions.cpp-182-	long pre_append_endpos = 0, numberOfBitsPerSamplePoint = 16;
+./dwtools/LongSound_extensions.cpp-183-	try {
+--
+./dwtools/LongSound_extensions.cpp:185:			Melder_throw ("No Sound or LongSound objects to append.");
+./dwtools/LongSound_extensions.cpp-186-		}
+./dwtools/LongSound_extensions.cpp-187-
+--
+./dwtools/LongSound_extensions.cpp:193:			For Linux: If the file is already opened (e.g. by a LongSound) object we
+./dwtools/LongSound_extensions.cpp-194-			should deny access!
+./dwtools/LongSound_extensions.cpp-195-			Under Windows deny access is default?!
+--
+./dwtools/LongSound_extensions.cpp:222:				LongSound longSound = (LongSound) data;
+./dwtools/LongSound_extensions.cpp:223:				sampleRatesMatch = longSound -> sampleRate == sampleRate;
+./dwtools/LongSound_extensions.cpp:224:				numbersOfChannelsMatch = longSound -> numberOfChannels == numberOfChannels;
+./dwtools/LongSound_extensions.cpp:225:				numberOfSamples += longSound -> nx;
+./dwtools/LongSound_extensions.cpp-226-			}
+./dwtools/LongSound_extensions.cpp-227-			if (! sampleRatesMatch) {
+--
+./dwtools/LongSound_extensions.cpp:249:				LongSound longSound = (LongSound) data;
+./dwtools/LongSound_extensions.cpp:250:				writePartToOpenFile16 (longSound, audioFileType, 1, longSound -> nx, file);
+./dwtools/LongSound_extensions.cpp-251-			}
+./dwtools/LongSound_extensions.cpp-252-			if (errno != 0) {
+--
+./dwtools/LongSound_extensions.cpp:274:/* End of file LongSound_extensions.cpp */
+--
+./dwtools/LongSound_extensions.h:1:#ifndef _LongSound_extensions_h_
+./dwtools/LongSound_extensions.h:2:#define _LongSound_extensions_h_
+./dwtools/LongSound_extensions.h:3:/* LongSound_extensions.h
+./dwtools/LongSound_extensions.h-4- *
+./dwtools/LongSound_extensions.h-5- * Copyright (C) 1993-2011 David Weenink
+--
+./dwtools/LongSound_extensions.h:28:#include "LongSound.h"
+./dwtools/LongSound_extensions.h-29-
+./dwtools/LongSound_extensions.h-30-#if defined (_WIN32)
+--
+./dwtools/LongSound_extensions.h:36:void LongSounds_writeToStereoAudioFile16 (LongSound me, LongSound thee,
+./dwtools/LongSound_extensions.h-37-	int audioFileType, MelderFile file);
+./dwtools/LongSound_extensions.h-38-
+./dwtools/LongSound_extensions.h:39:void LongSounds_appendToExistingSoundFile (Collection me, MelderFile file);
+./dwtools/LongSound_extensions.h-40-
+./dwtools/LongSound_extensions.h:41:#endif /* _LongSound_extensions_h_ */
+--
+./dwtools/praat_David_init.cpp:98:#include "LongSound_extensions.h"
+./dwtools/praat_David_init.cpp-99-#include "KlattGridEditors.h"
+./dwtools/praat_David_init.cpp-100-#include "KlattTable.h"
+--
+./dwtools/praat_David_init.cpp:3703:/********************* LongSound **************************************/
+./dwtools/praat_David_init.cpp-3704-
+./dwtools/praat_David_init.cpp:3705:FORM_READ (LongSounds_appendToExistingSoundFile, L"LongSound: Append to existing sound file", 0, false)
+./dwtools/praat_David_init.cpp-3706-	autoCollection set = praat_getSelectedObjects ();
+./dwtools/praat_David_init.cpp:3707:	LongSounds_appendToExistingSoundFile (set.peek(), file);
+./dwtools/praat_David_init.cpp-3708-END
+./dwtools/praat_David_init.cpp-3709-
+./dwtools/praat_David_init.cpp:3710:FORM_WRITE (LongSounds_writeToStereoAiffFile, L"LongSound: Save as AIFF file", 0, L"aiff")
+./dwtools/praat_David_init.cpp:3711:	LongSound s1 = 0, s2 = 0;
+./dwtools/praat_David_init.cpp:3712:	LOOP { iam (LongSound); (s1 ? s2 : s1) = me; }
+./dwtools/praat_David_init.cpp-3713-	Melder_assert (s1 != 0 && s2 != 0);
+./dwtools/praat_David_init.cpp:3714:	LongSounds_writeToStereoAudioFile16 (s1, s2, Melder_AIFF, file);
+./dwtools/praat_David_init.cpp-3715-END
+./dwtools/praat_David_init.cpp-3716-
+./dwtools/praat_David_init.cpp:3717:FORM_WRITE (LongSounds_writeToStereoAifcFile, L"LongSound: Save as AIFC file", 0, L"aifc")
+./dwtools/praat_David_init.cpp:3718:	LongSound s1 = 0, s2 = 0;
+./dwtools/praat_David_init.cpp:3719:	LOOP { iam (LongSound); (s1 ? s2 : s1) = me; }
+./dwtools/praat_David_init.cpp-3720-	Melder_assert (s1 != 0 && s2 != 0);
+./dwtools/praat_David_init.cpp:3721:	LongSounds_writeToStereoAudioFile16 (s1, s2, Melder_AIFC, file);
+./dwtools/praat_David_init.cpp-3722-END
+./dwtools/praat_David_init.cpp-3723-
+./dwtools/praat_David_init.cpp:3724:FORM_WRITE (LongSounds_writeToStereoWavFile, L"LongSound: Save as WAV file", 0, L"wav")
+./dwtools/praat_David_init.cpp:3725:	LongSound s1 = 0, s2 = 0;
+./dwtools/praat_David_init.cpp:3726:	LOOP { iam (LongSound); (s1 ? s2 : s1) = me; }
+./dwtools/praat_David_init.cpp-3727-	Melder_assert (s1 != 0 && s2 != 0);
+./dwtools/praat_David_init.cpp:3728:	LongSounds_writeToStereoAudioFile16 (s1, s2, Melder_WAV, file);
+./dwtools/praat_David_init.cpp-3729-END
+./dwtools/praat_David_init.cpp-3730-
+./dwtools/praat_David_init.cpp:3731:FORM_WRITE (LongSounds_writeToStereoNextSunFile, L"LongSound: Save as NeXT/Sun file", 0, L"au")
+./dwtools/praat_David_init.cpp:3732:	LongSound s1 = 0, s2 = 0;
+./dwtools/praat_David_init.cpp:3733:	LOOP { iam (LongSound); (s1 ? s2 : s1) = me; }
+./dwtools/praat_David_init.cpp-3734-	Melder_assert (s1 != 0 && s2 != 0);
+./dwtools/praat_David_init.cpp:3735:	LongSounds_writeToStereoAudioFile16 (s1, s2, Melder_NEXT_SUN, file);
+./dwtools/praat_David_init.cpp-3736-END
+./dwtools/praat_David_init.cpp-3737-
+./dwtools/praat_David_init.cpp:3738:FORM_WRITE (LongSounds_writeToStereoNistFile, L"LongSound: Save as NIST file", 0, L"nist")
+./dwtools/praat_David_init.cpp:3739:	LongSound s1 = 0, s2 = 0;
+./dwtools/praat_David_init.cpp:3740:	LOOP { iam (LongSound); (s1 ? s2 : s1) = me; }
+./dwtools/praat_David_init.cpp-3741-	Melder_assert (s1 != 0 && s2 != 0);
+./dwtools/praat_David_init.cpp:3742:	LongSounds_writeToStereoAudioFile16 (s1, s2, Melder_NIST, file);
+./dwtools/praat_David_init.cpp-3743-END
+./dwtools/praat_David_init.cpp-3744-
+--
+./dwtools/praat_David_init.cpp:8478:	praat_addAction1 (classLongSound, 0, L"Append to existing sound file...", 0, 0, DO_LongSounds_appendToExistingSoundFile);
+./dwtools/praat_David_init.cpp:8479:	praat_addAction1 (classSound, 0, L"Append to existing sound file...", 0, 0, DO_LongSounds_appendToExistingSoundFile);
+./dwtools/praat_David_init.cpp:8480:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Append to existing sound file...", 0, 0, DO_LongSounds_appendToExistingSoundFile);
+./dwtools/praat_David_init.cpp-8481-
+./dwtools/praat_David_init.cpp:8482:	praat_addAction1 (classLongSound, 2, L"Save as stereo AIFF file...", L"Save as NIST file...", 1, DO_LongSounds_writeToStereoAiffFile);
+./dwtools/praat_David_init.cpp:8483:	praat_addAction1 (classLongSound, 2, L"Write to stereo AIFF file...", L"Write to NIST file...", praat_HIDDEN + praat_DEPTH_1, DO_LongSounds_writeToStereoAiffFile);
+./dwtools/praat_David_init.cpp:8484:	praat_addAction1 (classLongSound, 2, L"Save as stereo AIFC file...", L"Save as stereo AIFF file...", 1, DO_LongSounds_writeToStereoAifcFile);
+./dwtools/praat_David_init.cpp:8485:	praat_addAction1 (classLongSound, 2, L"Write to stereo AIFC file...", L"Write to stereo AIFF file...", praat_HIDDEN + praat_DEPTH_1, DO_LongSounds_writeToStereoAifcFile);
+./dwtools/praat_David_init.cpp:8486:	praat_addAction1 (classLongSound, 2, L"Save as stereo WAV file...", L"Save as stereo AIFC file...", 1, DO_LongSounds_writeToStereoWavFile);
+./dwtools/praat_David_init.cpp:8487:	praat_addAction1 (classLongSound, 2, L"Write to stereo WAV file...", L"Write to stereo AIFC file...", praat_HIDDEN + praat_DEPTH_1, DO_LongSounds_writeToStereoWavFile);
+./dwtools/praat_David_init.cpp:8488:	praat_addAction1 (classLongSound, 2, L"Save as stereo NeXt/Sun file...", L"Save as stereo WAV file...", 1, DO_LongSounds_writeToStereoNextSunFile);
+./dwtools/praat_David_init.cpp:8489:	praat_addAction1 (classLongSound, 2, L"Write to stereo NeXt/Sun file...", L"Write to stereo WAV file...", praat_HIDDEN + praat_DEPTH_1, DO_LongSounds_writeToStereoNextSunFile);
+./dwtools/praat_David_init.cpp:8490:	praat_addAction1 (classLongSound, 2, L"Save as stereo NIST file...", L"Save as stereo NeXt/Sun file...", 1, DO_LongSounds_writeToStereoNistFile);
+./dwtools/praat_David_init.cpp:8491:	praat_addAction1 (classLongSound, 2, L"Write to stereo NIST file...", L"Write to stereo NeXt/Sun file...", praat_HIDDEN + praat_DEPTH_1, DO_LongSounds_writeToStereoNistFile);
+./dwtools/praat_David_init.cpp-8492-
+./dwtools/praat_David_init.cpp-8493-	praat_addAction1 (classLtas, 0, L"Report spectral tilt...", L"Get slope...", 1, DO_Ltas_reportSpectralTilt);
+--
+./fon/manual_sound.cpp:354:	"you could use the @LongSound object instead, which you can view in the @LongSoundEditor.")
+./fon/manual_sound.cpp-355-MAN_END
+./fon/manual_sound.cpp-356-
+--
+./fon/TextGrid_Sound.cpp:29:#include "LongSound.h"
+./fon/TextGrid_Sound.cpp-30-
+./fon/TextGrid_Sound.cpp-31-static bool IntervalTier_check (IntervalTier me) {
+--
+./fon/TextGrid_Sound.cpp:156:			anySound -> classInfo == classLongSound ? 
+./fon/TextGrid_Sound.cpp:157:				LongSound_extractPart (static_cast <LongSound> (anySound), interval -> xmin, interval -> xmax, true) :
+./fon/TextGrid_Sound.cpp-158-				Sound_extractPart (static_cast <Sound> (anySound), interval -> xmin, interval -> xmax, kSound_windowShape_RECTANGULAR, 1.0, true);
+./fon/TextGrid_Sound.cpp-159-		autoSpeechSynthesizer synthesizer = SpeechSynthesizer_create (languageName, L"default");
+--
+./fon/Makefile:11:   Sound.o LongSound.o Sound_files.o Sound_audio.o PointProcess_and_Sound.o Sound_PointProcess.o ParamCurve.o \
+./fon/Makefile-12-   Pitch.o Harmonicity.o Intensity.o Matrix_and_Pitch.o Sound_to_Pitch.o \
+./fon/Makefile-13-   Sound_to_Intensity.o Sound_to_Harmonicity.o Sound_to_Harmonicity_GNE.o Sound_to_PointProcess.o \
+--
+./fon/manual_Sampling.cpp:55:INTRO (L"A command that becomes available in the #Query menu if you select a @Sound or @LongSound object.")
+./fon/manual_Sampling.cpp-56-NORMAL (L"The Info window will tell you the time (in seconds) associated with the sample number that you specify.")
+./fon/manual_Sampling.cpp-57-ENTRY (L"Setting")
+--
+./fon/manual_Sampling.cpp:65:NORMAL (L"If you select a Sound or LongSound and click @Inspect, "
+./fon/manual_Sampling.cpp-66-	"you can see how the relation between sample numbers and times is stored in the object: "
+./fon/manual_Sampling.cpp-67-	"%t__1_ is the #x1 attribute, and \\De%t is the #dx attribute.")
+--
+./fon/manual_Sampling.cpp:71:INTRO (L"A command that becomes available in the #Query menu if you select a @Sound or @LongSound object.")
+./fon/manual_Sampling.cpp-72-NORMAL (L"The Info window will tell you the sample number belonging to the time that you specify. "
+./fon/manual_Sampling.cpp-73-	"The result is presented as a real number.")
+--
+./fon/manual_Sampling.cpp:93:NORMAL (L"If you select a Sound or LongSound and click @Inspect, "
+./fon/manual_Sampling.cpp-94-	"you can see how the relation between sample numbers and times is stored in the object: "
+./fon/manual_Sampling.cpp-95-	"%t__1_ is the #x1 attribute, and \\De%t is the #dx attribute.")
+--
+./fon/manual_Sampling.cpp:99:INTRO (L"A command that becomes available in the #Query menu if you select a @Sound or @LongSound object.")
+./fon/manual_Sampling.cpp-100-NORMAL (L"The Info window will tell you the total number of time samples in this object.")
+./fon/manual_Sampling.cpp-101-ENTRY (L"Example")
+--
+./fon/manual_Sampling.cpp:105:NORMAL (L"If you select a Sound or LongSound and click @Inspect, "
+./fon/manual_Sampling.cpp-106-	"you can see how the number of samples is stored in the object: it is the #nx attribute.")
+./fon/manual_Sampling.cpp-107-MAN_END
+--
+./fon/praat_TextGrid_init.cpp:858:DIRECT2 (TextGrid_LongSound_edit) {
+./fon/praat_TextGrid_init.cpp-859-	if (theCurrentPraatApplication -> batch) Melder_throw ("Cannot view or edit a TextGrid from batch.");
+./fon/praat_TextGrid_init.cpp:860:	LongSound longSound = NULL;
+./fon/praat_TextGrid_init.cpp:861:	int ilongSound = 0;
+./fon/praat_TextGrid_init.cpp-862-	LOOP {
+./fon/praat_TextGrid_init.cpp:863:		if (CLASS == classLongSound) longSound = (LongSound) OBJECT, ilongSound = IOBJECT;
+./fon/praat_TextGrid_init.cpp-864-	}
+./fon/praat_TextGrid_init.cpp:865:	Melder_assert (ilongSound != 0);
+./fon/praat_TextGrid_init.cpp-866-	LOOP if (CLASS == classTextGrid) {
+./fon/praat_TextGrid_init.cpp-867-		iam (TextGrid);
+./fon/praat_TextGrid_init.cpp:868:		autoTextGridEditor editor = TextGridEditor_create (ID_AND_FULL_NAME, me, longSound, false, NULL, NULL);
+./fon/praat_TextGrid_init.cpp-869-		editor -> setPublicationCallback (cb_TextGridEditor_publication, NULL);
+./fon/praat_TextGrid_init.cpp:870:		praat_installEditor2 (editor.transfer(), IOBJECT, ilongSound);
+./fon/praat_TextGrid_init.cpp-871-	}
+./fon/praat_TextGrid_init.cpp-872-END2 }
+--
+./fon/praat_TextGrid_init.cpp:891:DIRECT2 (TextGrid_LongSound_SpellingChecker_edit) {
+./fon/praat_TextGrid_init.cpp-892-	if (theCurrentPraatApplication -> batch) Melder_throw ("Cannot view or edit a TextGrid from batch.");
+./fon/praat_TextGrid_init.cpp:893:	LongSound longSound = NULL;
+./fon/praat_TextGrid_init.cpp-894-	SpellingChecker spellingChecker = NULL;
+./fon/praat_TextGrid_init.cpp:895:	int ilongSound = 0, ispellingChecker = 0;
+./fon/praat_TextGrid_init.cpp-896-	LOOP {
+./fon/praat_TextGrid_init.cpp:897:		if (CLASS == classLongSound) longSound = (LongSound) OBJECT, ilongSound = IOBJECT;
+./fon/praat_TextGrid_init.cpp-898-		if (CLASS == classSpellingChecker) spellingChecker = (SpellingChecker) OBJECT, ispellingChecker = IOBJECT;
+./fon/praat_TextGrid_init.cpp-899-	}
+./fon/praat_TextGrid_init.cpp:900:	Melder_assert (ilongSound != 0 && ispellingChecker != 0);
+./fon/praat_TextGrid_init.cpp-901-	LOOP if (CLASS == classTextGrid) {
+./fon/praat_TextGrid_init.cpp-902-		iam (TextGrid);
+./fon/praat_TextGrid_init.cpp:903:		autoTextGridEditor editor = TextGridEditor_create (ID_AND_FULL_NAME, me, longSound, false, spellingChecker, NULL);
+./fon/praat_TextGrid_init.cpp:904:		praat_installEditor3 (editor.transfer(), IOBJECT, ilongSound, ispellingChecker);
+./fon/praat_TextGrid_init.cpp-905-	}
+./fon/praat_TextGrid_init.cpp-906-END2 }
+--
+./fon/praat_TextGrid_init.cpp:1540:/***** TEXTGRID & LONGSOUND *****/
+./fon/praat_TextGrid_init.cpp-1541-
+./fon/praat_TextGrid_init.cpp:1542:DIRECT2 (TextGrid_LongSound_scaleTimes) {
+./fon/praat_TextGrid_init.cpp-1543-	TextGrid grid = NULL;
+./fon/praat_TextGrid_init.cpp:1544:	LongSound longSound = NULL;
+./fon/praat_TextGrid_init.cpp-1545-	LOOP {
+./fon/praat_TextGrid_init.cpp-1546-		if (CLASS == classTextGrid) grid = (TextGrid) OBJECT;
+./fon/praat_TextGrid_init.cpp:1547:		if (CLASS == classLongSound) longSound = (LongSound) OBJECT;
+./fon/praat_TextGrid_init.cpp-1548-	}
+./fon/praat_TextGrid_init.cpp:1549:	Function_scaleXTo (grid, longSound -> xmin, longSound -> xmax);
+./fon/praat_TextGrid_init.cpp-1550-	praat_dataChanged (grid);
+./fon/praat_TextGrid_init.cpp-1551-END2 }
+--
+./fon/praat_TextGrid_init.cpp:1796:	praat_addAction2 (classLongSound, 1, classTextGrid, 1, L"View & Edit", 0, praat_ATTRACTIVE, DO_TextGrid_LongSound_edit);
+./fon/praat_TextGrid_init.cpp:1797:	praat_addAction2 (classLongSound, 1, classTextGrid, 1, L"Edit", 0, praat_HIDDEN, DO_TextGrid_LongSound_edit);   // hidden 2011
+./fon/praat_TextGrid_init.cpp:1798:	praat_addAction2 (classLongSound, 1, classTextGrid, 1, L"Scale times", 0, 0, DO_TextGrid_LongSound_scaleTimes);
+./fon/praat_TextGrid_init.cpp-1799-	praat_addAction2 (classPitch, 1, classTextGrid, 1, L"Draw -", 0, 0, 0);
+./fon/praat_TextGrid_init.cpp-1800-	praat_addAction2 (classPitch, 1, classTextGrid, 1, L"Draw...", 0, 1, DO_TextGrid_Pitch_draw);
+--
+./fon/praat_TextGrid_init.cpp:1843:	praat_addAction3 (classLongSound, 1, classSpellingChecker, 1, classTextGrid, 1, L"View & Edit", 0, praat_ATTRACTIVE, DO_TextGrid_LongSound_SpellingChecker_edit);
+./fon/praat_TextGrid_init.cpp:1844:	praat_addAction3 (classLongSound, 1, classSpellingChecker, 1, classTextGrid, 1, L"Edit", 0, praat_HIDDEN, DO_TextGrid_LongSound_SpellingChecker_edit);
+./fon/praat_TextGrid_init.cpp-1845-	praat_addAction3 (classSound, 1, classSpellingChecker, 1, classTextGrid, 1, L"View & Edit", 0, praat_ATTRACTIVE, DO_TextGrid_SpellingChecker_edit);
+./fon/praat_TextGrid_init.cpp-1846-	praat_addAction3 (classSound, 1, classSpellingChecker, 1, classTextGrid, 1, L"Edit", 0, praat_HIDDEN, DO_TextGrid_SpellingChecker_edit);
+--
+./fon/SoundEditor.cpp:32:	Melder_assert (sound != NULL);   // LongSound objects should not get v_dataChanged messages
+./fon/SoundEditor.cpp-33-	Matrix_getWindowExtrema (sound, 1, sound -> nx, 1, sound -> ny, & d_sound.minimum, & d_sound.maximum);   // BUG unreadable
+./fon/SoundEditor.cpp-34-	v_destroy_analysis ();
+--
+./fon/SoundEditor.cpp:46:		autoSound publish = my d_longSound.data ? LongSound_extractPart ((LongSound) my data, my d_startSelection, my d_endSelection, FALSE) :
+./fon/SoundEditor.cpp-47-			Sound_extractPart ((Sound) my data, my d_startSelection, my d_endSelection, kSound_windowShape_RECTANGULAR, 1.0, FALSE);
+./fon/SoundEditor.cpp-48-		/*
+--
+./fon/SoundEditor.cpp:291:static void menu_cb_LongSoundEditorHelp (EDITOR_ARGS) { EDITOR_IAM (SoundEditor); Melder_help (L"LongSoundEditor"); }
+./fon/SoundEditor.cpp-292-
+./fon/SoundEditor.cpp-293-void structSoundEditor :: v_createMenus () {
+--
+./fon/SoundEditor.cpp:296:	Melder_assert (d_sound.data != NULL || d_longSound.data != NULL);
+./fon/SoundEditor.cpp-297-
+./fon/SoundEditor.cpp-298-	Editor_addCommand (this, L"Edit", L"-- cut copy paste --", 0, NULL);
+--
+./fon/SoundEditor.cpp:322:	EditorMenu_addCommand (menu, L"LongSoundEditor help", 0, menu_cb_LongSoundEditorHelp);
+./fon/SoundEditor.cpp-323-}
+./fon/SoundEditor.cpp-324-
+--
+./fon/SoundEditor.cpp:328:	if (d_longSound.data) {
+./fon/SoundEditor.cpp-329-		try {
+./fon/SoundEditor.cpp:330:			LongSound_haveWindow (d_longSound.data, d_startWindow, d_endWindow);
+./fon/SoundEditor.cpp-331-		} catch (MelderError) {
+./fon/SoundEditor.cpp-332-			Melder_clearError ();
+--
+./fon/SoundEditor.cpp:342:	Melder_assert (d_sound.data != NULL || d_longSound.data != NULL);
+./fon/SoundEditor.cpp-343-
+./fon/SoundEditor.cpp-344-	/*
+./fon/SoundEditor.cpp:345:	 * We check beforehand whether the window fits the LongSound buffer.
+./fon/SoundEditor.cpp-346-	 */
+./fon/SoundEditor.cpp:347:	if (d_longSound.data && d_endWindow - d_startWindow > d_longSound.data -> bufferLength) {
+./fon/SoundEditor.cpp-348-		Graphics_setColour (d_graphics, Graphics_WHITE);
+./fon/SoundEditor.cpp-349-		Graphics_setWindow (d_graphics, 0, 1, 0, 1);
+--
+./fon/SoundEditor.cpp:353:		Graphics_text3 (d_graphics, 0.5, 0.5, L"(window longer than ", Melder_float (Melder_single (d_longSound.data -> bufferLength)), L" seconds)");
+./fon/SoundEditor.cpp-354-		Graphics_setTextAlignment (d_graphics, Graphics_CENTRE, Graphics_TOP);
+./fon/SoundEditor.cpp-355-		Graphics_text1 (d_graphics, 0.5, 0.5, L"(zoom in to see the samples)");
+--
+./fon/SoundEditor.cpp:407:	if (d_longSound.data)
+./fon/SoundEditor.cpp:408:		LongSound_playPart ((LongSound) data, a_tmin, a_tmax, theFunctionEditor_playCallback, this);
+./fon/SoundEditor.cpp-409-	else
+./fon/SoundEditor.cpp-410-		Sound_playPart ((Sound) data, a_tmin, a_tmax, theFunctionEditor_playCallback, this);
+--
+./fon/SoundEditor.cpp:437:	 * my longSound.data or my sound.data have to be set before we call FunctionEditor_init,
+./fon/SoundEditor.cpp-438-	 * because createMenus expect that one of them is not NULL.
+./fon/SoundEditor.cpp-439-	 */
+--
+./fon/SoundEditor.cpp:441:	if (my d_longSound.data && my d_endWindow - my d_startWindow > 30.0) {
+./fon/SoundEditor.cpp-442-		my d_endWindow = my d_startWindow + 30.0;
+./fon/SoundEditor.cpp-443-		if (my d_startWindow == my tmin)
+--
+./fon/TimeSoundAnalysisEditor.cpp:554:	if (my d_longSound.data) {
+./fon/TimeSoundAnalysisEditor.cpp:555:		if (tmin < my d_longSound.data -> xmin) tmin = my d_longSound.data -> xmin;
+./fon/TimeSoundAnalysisEditor.cpp:556:		if (tmax > my d_longSound.data -> xmax) tmax = my d_longSound.data -> xmax;
+./fon/TimeSoundAnalysisEditor.cpp:557:		sound = LongSound_extractPart (my d_longSound.data, tmin, tmax, TRUE);
+./fon/TimeSoundAnalysisEditor.cpp-558-	} else if (my d_sound.data) {
+./fon/TimeSoundAnalysisEditor.cpp-559-		if (tmin < my d_sound.data -> xmin) tmin = my d_sound.data -> xmin;
+--
+./fon/TimeSoundAnalysisEditor.cpp:1452:	if (d_sound.data || d_longSound.data) {
+./fon/TimeSoundAnalysisEditor.cpp-1453-		v_createMenuItems_query_log (menu);
+./fon/TimeSoundAnalysisEditor.cpp-1454-	}
+--
+./fon/manual_annotation.cpp:104:	"to select a @Sound or @LongSound object before clicking ##View & Edit#, so that a representation of the sound "
+./fon/manual_annotation.cpp-105-	"is also visible (and audible) in the editor. Thus, you typically select three objects and click ##View & Edit#. "
+./fon/manual_annotation.cpp-106-	"The editor then allows you to check the spellings "
+--
+./fon/manual_annotation.cpp:154:LIST_ITEM (L"@@LongSound: To TextGrid...@ (takes the time domain from the LongSound)")
+./fon/manual_annotation.cpp-155-LIST_ITEM (L"@@PointProcess: To TextGrid...@ (takes the time domain from the PointProcess)")
+./fon/manual_annotation.cpp-156-LIST_ITEM (L"@@PointProcess: To TextGrid (vuv)...@ (labels voiced and unvoiced intervals)")
+--
+./fon/manual_annotation.cpp:161:NORMAL (L"You select a TextGrid alone or together with a @Sound or @LongSound, and click ##View & Edit#. "
+./fon/manual_annotation.cpp-162-	"A @TextGridEditor will appear on your screen, containing the TextGrid "
+./fon/manual_annotation.cpp:163:	"and an optional copy of the Sound or LongSound.")
+./fon/manual_annotation.cpp-164-ENTRY (L"How to draw a TextGrid")
+./fon/manual_annotation.cpp-165-TAG (L"You can draw a TextGrid to the @@Picture window@ with:")
+--
+./fon/manual_annotation.cpp:196:NORMAL (L"You can optionally include a copy of a @Sound or @LongSound in this editor, "
+./fon/manual_annotation.cpp:197:	"by selecting both the TextGrid and the Sound or LongSound before clicking ##View & Edit#. "
+./fon/manual_annotation.cpp:198:	"The Sound or LongSound is shown in the upper part of the window, the tiers in the lower part. "
+./fon/manual_annotation.cpp-199-	"A text window at the top shows the text of the %#selected interval or point, "
+./fon/manual_annotation.cpp-200-	"i.e. the interval or point at the location of the cursor. "
+--
+./fon/manual_annotation.cpp:202:	"You can do many of the same things that you can do with a @SoundEditor or @LongSoundEditor.")
+./fon/manual_annotation.cpp-203-ENTRY (L"Positioning the cursor or the selection marks")
+./fon/manual_annotation.cpp-204-NORMAL (L"To position the cursor hair, @click in the #Sound, on a boundary, on a point, or inside an interval.")
+--
+./fon/manual_annotation.cpp:264:NORMAL (L"To copy the selected part of the Sound or LongSound as a Sound to the @@List of Objects@, "
+./fon/manual_annotation.cpp-265-	"choose ##Extract sound selection# from the #File menu. You can specify whether you want "
+./fon/manual_annotation.cpp-266-	"the time domain of the resulting Sound to match the starting and finishing times of the "
+--
+./fon/manual_annotation.cpp:268:NORMAL (L"If you are viewing a LongSound, you can save the selected part of it to a 16-bit sound file "
+./fon/manual_annotation.cpp-269-	"(AIFF, AIFC, WAV, NeXT/Sun, NIST) with a command from the File menu.")
+./fon/manual_annotation.cpp-270-ENTRY (L"Accelerations")
+--
+./fon/manual_annotation.cpp:413:longSound = selected ("LongSound")
+./fon/manual_annotation.cpp:414:longSoundNaam$ = selected$ ("LongSound")
+./fon/manual_annotation.cpp-415-textGrid = selected ("TextGrid")
+./fon/manual_annotation.cpp-416-select 'textGrid'
+--
+./fon/manual_annotation.cpp:422:   select 'longSound'
+./fon/manual_annotation.cpp-423-   Extract part... begintijd eindtijd no
+./fon/manual_annotation.cpp:424:   Save as WAV file... C:\Geluiden\'longSoundNaam$'_'interval'.wav
+./fon/manual_annotation.cpp-425-   Remove
+./fon/manual_annotation.cpp-426-endfor
+--
+./fon/TimeSoundEditor.cpp:81:		if (my d_longSound.data == NULL && my d_sound.data == NULL)
+./fon/TimeSoundEditor.cpp-82-			Melder_throw ("There is no sound to draw.");
+./fon/TimeSoundEditor.cpp:83:		autoSound publish = my d_longSound.data ?
+./fon/TimeSoundEditor.cpp:84:			LongSound_extractPart (my d_longSound.data, my d_startWindow, my d_endWindow, my pref_picture_preserveTimes ()) :
+./fon/TimeSoundEditor.cpp-85-			Sound_extractPart (my d_sound.data, my d_startWindow, my d_endWindow, kSound_windowShape_RECTANGULAR, 1.0, my pref_picture_preserveTimes ());
+./fon/TimeSoundEditor.cpp-86-		Editor_openPraatPicture (me);
+--
+./fon/TimeSoundEditor.cpp:118:		if (my d_longSound.data == NULL && my d_sound.data == NULL)
+./fon/TimeSoundEditor.cpp-119-			Melder_throw ("There is no sound to draw.");
+./fon/TimeSoundEditor.cpp:120:		autoSound publish = my d_longSound.data ?
+./fon/TimeSoundEditor.cpp:121:			LongSound_extractPart (my d_longSound.data, my d_startSelection, my d_endSelection, my pref_picture_preserveTimes ()) :
+./fon/TimeSoundEditor.cpp-122-			Sound_extractPart (my d_sound.data, my d_startSelection, my d_endSelection, kSound_windowShape_RECTANGULAR, 1.0, my pref_picture_preserveTimes ());
+./fon/TimeSoundEditor.cpp-123-		Editor_openPraatPicture (me);
+--
+./fon/TimeSoundEditor.cpp:134:	if (my d_longSound.data) {
+./fon/TimeSoundEditor.cpp:135:		extract.reset (LongSound_extractPart (my d_longSound.data, my d_startSelection, my d_endSelection, preserveTimes));
+./fon/TimeSoundEditor.cpp-136-	} else if (my d_sound.data) {
+./fon/TimeSoundEditor.cpp-137-		extract.reset (Sound_extractPart (my d_sound.data, my d_startSelection, my d_endSelection, kSound_windowShape_RECTANGULAR, 1.0, preserveTimes));
+--
+./fon/TimeSoundEditor.cpp:197:	if (my d_longSound.data) {
+./fon/TimeSoundEditor.cpp:198:		LongSound_writePartToAudioFile (my d_longSound.data, format, my d_startSelection, my d_endSelection, file);
+./fon/TimeSoundEditor.cpp-199-	} else if (my d_sound.data) {
+./fon/TimeSoundEditor.cpp-200-		Sound sound = my d_sound.data;
+--
+./fon/TimeSoundEditor.cpp:225:		swprintf (defaultName, 300, L"%ls.wav", my d_longSound.data ? my d_longSound.data -> name : my d_sound.data -> name);
+./fon/TimeSoundEditor.cpp-226-	EDITOR_DO_WRITE
+./fon/TimeSoundEditor.cpp-227-		do_write (me, file, Melder_WAV, 16);
+--
+./fon/TimeSoundEditor.cpp:234:		Melder_assert (my d_longSound.data == NULL && my d_sound.data != NULL);
+./fon/TimeSoundEditor.cpp-235-		swprintf (defaultName, 300, L"%ls.wav", my d_sound.data -> name);
+./fon/TimeSoundEditor.cpp-236-	EDITOR_DO_WRITE
+--
+./fon/TimeSoundEditor.cpp:244:		Melder_assert (my d_longSound.data == NULL && my d_sound.data != NULL);
+./fon/TimeSoundEditor.cpp-245-		swprintf (defaultName, 300, L"%ls.wav", my d_sound.data -> name);
+./fon/TimeSoundEditor.cpp-246-	EDITOR_DO_WRITE
+--
+./fon/TimeSoundEditor.cpp:254:		swprintf (defaultName, 300, L"%ls.aiff", my d_longSound.data ? my d_longSound.data -> name : my d_sound.data -> name);
+./fon/TimeSoundEditor.cpp-255-	EDITOR_DO_WRITE
+./fon/TimeSoundEditor.cpp-256-		do_write (me, file, Melder_AIFF, 16);
+--
+./fon/TimeSoundEditor.cpp:263:		swprintf (defaultName, 300, L"%ls.aifc", my d_longSound.data ? my d_longSound.data -> name : my d_sound.data -> name);
+./fon/TimeSoundEditor.cpp-264-	EDITOR_DO_WRITE
+./fon/TimeSoundEditor.cpp-265-		do_write (me, file, Melder_AIFC, 16);
+--
+./fon/TimeSoundEditor.cpp:272:		swprintf (defaultName, 300, L"%ls.au", my d_longSound.data ? my d_longSound.data -> name : my d_sound.data -> name);
+./fon/TimeSoundEditor.cpp-273-	EDITOR_DO_WRITE
+./fon/TimeSoundEditor.cpp-274-		do_write (me, file, Melder_NEXT_SUN, 16);
+--
+./fon/TimeSoundEditor.cpp:281:		swprintf (defaultName, 300, L"%ls.nist", my d_longSound.data ? my d_longSound.data -> name : my d_sound.data -> name);
+./fon/TimeSoundEditor.cpp-282-	EDITOR_DO_WRITE
+./fon/TimeSoundEditor.cpp-283-		do_write (me, file, Melder_NIST, 16);
+--
+./fon/TimeSoundEditor.cpp:290:		swprintf (defaultName, 300, L"%ls.flac", my d_longSound.data ? my d_longSound.data -> name : my d_sound.data -> name);
+./fon/TimeSoundEditor.cpp-291-	EDITOR_DO_WRITE
+./fon/TimeSoundEditor.cpp-292-		do_write (me, file, Melder_FLAC, 16);
+--
+./fon/TimeSoundEditor.cpp:298:	if (d_sound.data || d_longSound.data) {
+./fon/TimeSoundEditor.cpp-299-		EditorMenu_addCommand (menu, L"Draw visible sound...", 0, menu_cb_DrawVisibleSound);
+./fon/TimeSoundEditor.cpp-300-		drawButton = EditorMenu_addCommand (menu, L"Draw selected sound...", 0, menu_cb_DrawSelectedSound);
+--
+./fon/TimeSoundEditor.cpp:306:	if (d_sound.data || d_longSound.data) {
+./fon/TimeSoundEditor.cpp-307-		publishPreserveButton = EditorMenu_addCommand (menu, L"Extract selected sound (preserve times)", 0, menu_cb_ExtractSelectedSound_preserveTimes);
+./fon/TimeSoundEditor.cpp-308-			EditorMenu_addCommand (menu, L"Extract sound selection (preserve times)", Editor_HIDDEN, menu_cb_ExtractSelectedSound_preserveTimes);
+--
+./fon/TimeSoundEditor.cpp:325:	if (d_sound.data || d_longSound.data) {
+./fon/TimeSoundEditor.cpp-326-		writeWavButton = EditorMenu_addCommand (menu, L"Save selected sound as WAV file...", 0, menu_cb_WriteWav);
+./fon/TimeSoundEditor.cpp-327-			EditorMenu_addCommand (menu, L"Write selected sound to WAV file...", Editor_HIDDEN, menu_cb_WriteWav);
+--
+./fon/TimeSoundEditor.cpp:373:static void menu_cb_LongSoundInfo (EDITOR_ARGS) {
+./fon/TimeSoundEditor.cpp-374-	EDITOR_IAM (TimeSoundEditor);
+./fon/TimeSoundEditor.cpp:375:	Thing_info (my d_longSound.data);
+./fon/TimeSoundEditor.cpp-376-}
+./fon/TimeSoundEditor.cpp-377-
+--
+./fon/TimeSoundEditor.cpp:382:	} else if (d_longSound.data != NULL && d_longSound.data != data) {
+./fon/TimeSoundEditor.cpp:383:		EditorMenu_addCommand (menu, L"LongSound info", 0, menu_cb_LongSoundInfo);
+./fon/TimeSoundEditor.cpp-384-	}
+./fon/TimeSoundEditor.cpp-385-}
+--
+./fon/TimeSoundEditor.cpp:413:	if (d_sound.data || d_longSound.data)
+./fon/TimeSoundEditor.cpp-414-		v_createMenuItems_view_sound (menu);
+./fon/TimeSoundEditor.cpp-415-	TimeSoundEditor_Parent :: v_createMenuItems_view (menu);
+--
+./fon/TimeSoundEditor.cpp:424:	Sampled sound = d_sound.data != NULL ? (Sampled) d_sound.data : (Sampled) d_longSound.data;
+./fon/TimeSoundEditor.cpp-425-	if (sound == NULL) return;
+./fon/TimeSoundEditor.cpp-426-	long first, last, selectedSamples = Sampled_getWindowSamples (sound, d_startSelection, d_endSelection, & first, & last);
+--
+./fon/TimeSoundEditor.cpp:448:	LongSound longSound = my d_longSound.data;
+./fon/TimeSoundEditor.cpp:449:	Melder_assert ((sound == NULL) != (longSound == NULL));
+./fon/TimeSoundEditor.cpp:450:	int nchan = sound ? sound -> ny : longSound -> numberOfChannels;
+./fon/TimeSoundEditor.cpp-451-	bool cursorVisible = my d_startSelection == my d_endSelection && my d_startSelection >= my d_startWindow && my d_startSelection <= my d_endWindow;
+./fon/TimeSoundEditor.cpp-452-	Graphics_setColour (my d_graphics, Graphics_BLACK);
+--
+./fon/TimeSoundEditor.cpp:455:		fits = sound ? true : LongSound_haveWindow (longSound, my d_startWindow, my d_endWindow);
+./fon/TimeSoundEditor.cpp-456-	} catch (MelderError) {
+./fon/TimeSoundEditor.cpp-457-		int outOfMemory = wcsstr (Melder_getError (), L"memory") != NULL;
+--
+./fon/TimeSoundEditor.cpp:471:	if (Sampled_getWindowSamples (sound ? (Sampled) sound : (Sampled) longSound, my d_startWindow, my d_endWindow, & first, & last) <= 1) {
+./fon/TimeSoundEditor.cpp-472-		Graphics_setWindow (my d_graphics, 0, 1, 0, 1);
+./fon/TimeSoundEditor.cpp-473-		Graphics_setTextAlignment (my d_graphics, Graphics_CENTRE, Graphics_HALF);
+--
+./fon/TimeSoundEditor.cpp:483:		if (longSound)
+./fon/TimeSoundEditor.cpp:484:			LongSound_getWindowExtrema (longSound, my d_startWindow, my d_endWindow, firstVisibleChannel, & visibleMinimum, & visibleMaximum);
+./fon/TimeSoundEditor.cpp-485-		else
+./fon/TimeSoundEditor.cpp-486-			Matrix_getWindowExtrema (sound, first, last, firstVisibleChannel, firstVisibleChannel, & visibleMinimum, & visibleMaximum);
+--
+./fon/TimeSoundEditor.cpp:489:			if (longSound)
+./fon/TimeSoundEditor.cpp:490:				LongSound_getWindowExtrema (longSound, my d_startWindow, my d_endWindow, ichan, & visibleChannelMinimum, & visibleChannelMaximum);
+./fon/TimeSoundEditor.cpp-491-			else
+./fon/TimeSoundEditor.cpp-492-				Matrix_getWindowExtrema (sound, first, last, ichan, ichan, & visibleChannelMinimum, & visibleChannelMaximum);
+--
+./fon/TimeSoundEditor.cpp:501:		double cursorFunctionValue = longSound ? 0.0 :
+./fon/TimeSoundEditor.cpp-502-			Vector_getValueAtX (sound, 0.5 * (my d_startSelection + my d_endSelection), ichan, 70);
+./fon/TimeSoundEditor.cpp-503-		/*
+--
+./fon/TimeSoundEditor.cpp:513:				if (longSound) {
+./fon/TimeSoundEditor.cpp:514:					LongSound_getWindowExtrema (longSound, my d_startWindow, my d_endWindow, ichan, & minimum, & maximum);
+./fon/TimeSoundEditor.cpp-515-				} else {
+./fon/TimeSoundEditor.cpp-516-					Matrix_getWindowExtrema (sound, first, last, ichan, ichan, & minimum, & maximum);
+--
+./fon/TimeSoundEditor.cpp:528:			if (longSound) {
+./fon/TimeSoundEditor.cpp:529:				LongSound_getWindowExtrema (longSound, my d_startWindow, my d_endWindow, ichan, & minimum, & maximum);
+./fon/TimeSoundEditor.cpp-530-			} else {
+./fon/TimeSoundEditor.cpp-531-				Matrix_getWindowExtrema (sound, first, last, ichan, ichan, & minimum, & maximum);
+--
+./fon/TimeSoundEditor.cpp:534:			if (longSound) {
+./fon/TimeSoundEditor.cpp:535:				LongSound_getWindowExtrema (longSound, my d_startWindow, my d_endWindow, ichan, & minimum, & maximum);
+./fon/TimeSoundEditor.cpp-536-			} else {
+./fon/TimeSoundEditor.cpp-537-				Matrix_getWindowExtrema (sound, first, last, ichan, ichan, & minimum, & maximum);
+--
+./fon/TimeSoundEditor.cpp:617:				longSound -> buffer - longSound -> imin * nchan + (ichan - 1), nchan - 1, first, last,
+./fon/TimeSoundEditor.cpp:618:				Sampled_indexToX (longSound, first), Sampled_indexToX (longSound, last));
+./fon/TimeSoundEditor.cpp-619-		}
+./fon/TimeSoundEditor.cpp-620-		Graphics_resetViewport (my d_graphics, vp);
+--
+./fon/TimeSoundEditor.cpp:628:	LongSound longSound = d_longSound.data;
+./fon/TimeSoundEditor.cpp:629:	if ((sound == NULL) != (longSound == NULL)) {
+./fon/TimeSoundEditor.cpp-630-		ybegin = (ybegin - v_getBottomOfSoundArea ()) / (1.0 - v_getBottomOfSoundArea ());
+./fon/TimeSoundEditor.cpp:631:		int nchan = sound ? sound -> ny : longSound -> numberOfChannels;
+./fon/TimeSoundEditor.cpp-632-		if (nchan > 8) {
+./fon/TimeSoundEditor.cpp-633-			trace ("%f %f %d %d", xbegin, ybegin, (int) nchan, (int) d_sound.channelOffset);
+--
+./fon/TimeSoundEditor.cpp:657:		} else if (Thing_member (sound, classLongSound)) {
+./fon/TimeSoundEditor.cpp:658:			my d_longSound.data = (LongSound) sound;
+./fon/TimeSoundEditor.cpp-659-			my d_sound.minimum = -1.0, my d_sound.maximum = 1.0;
+./fon/TimeSoundEditor.cpp-660-		} else {
+--
+./fon/TimeSoundEditor.h:24:#include "LongSound.h"
+./fon/TimeSoundEditor.h-25-
+./fon/TimeSoundEditor.h-26-#include "TimeSoundEditor_enums.h"
+--
+./fon/TimeSoundEditor.h:39:			struct { LongSound data; } d_longSound;
+./fon/TimeSoundEditor.h-40-			GuiMenuItem drawButton, publishButton, publishPreserveButton, publishWindowButton, publishOverlapButton;
+./fon/TimeSoundEditor.h-41-			GuiMenuItem writeAiffButton, d_saveAs24BitWavButton, d_saveAs32BitWavButton, writeAifcButton, writeWavButton, writeNextSunButton, writeNistButton, writeFlacButton;
+--
+./fon/manual_Fon.cpp:341:LIST_ITEM (L"• @LongSoundEditor")
+./fon/manual_Fon.cpp-342-LIST_ITEM (L"• @TextGridEditor")
+./fon/manual_Fon.cpp-343-LIST_ITEM (L"• @ManipulationEditor")
+--
+./fon/manual_Fon.cpp:358:NORMAL (L"Objects that cannot be modified (e.g. LongSound) just have the command #View instead of ##View & Edit#.")
+./fon/manual_Fon.cpp-359-ENTRY (L"General behaviour")
+./fon/manual_Fon.cpp-360-NORMAL (L"Changes that you make to an object in its editor window will take effect immediately. "
+--
+./fon/manual_soundFiles.cpp:188:	"to read into memory completely. A @LongSound object will appear in the list. "
+./fon/manual_soundFiles.cpp-189-	"You will typically choose #View to view the contents of this sound and analyse it. "
+./fon/manual_soundFiles.cpp-190-	"Praat will only read so much of the file into memory as is needed to play or display "
+--
+./fon/manual_soundFiles.cpp:254:INTRO (L"With this command, you save one or more selected @Sound and/or @LongSound objects "
+./fon/manual_soundFiles.cpp-255-	"as a single 16-bit little-endian WAV file on disk. See the @@Sound files@ tutorial for more information.")
+./fon/manual_soundFiles.cpp-256-MAN_END
+--
+./fon/manual_soundFiles.cpp:259:INTRO (L"With this command, you save one or more selected @Sound and/or @LongSound objects "
+./fon/manual_soundFiles.cpp-260-	"as a single 16-bit big-endian AIFF file on disk. See the @@Sound files@ tutorial for more information.")
+./fon/manual_soundFiles.cpp-261-/*ENTRY (L"AIFF file format for writing")
+--
+./fon/manual_soundFiles.cpp:266:INTRO (L"With this command, you save one or more selected @Sound and/or @LongSound objects "
+./fon/manual_soundFiles.cpp-267-	"as a single 16-bit big-endian AIFC file on disk. See the @@Sound files@ tutorial for more information.")
+./fon/manual_soundFiles.cpp-268-MAN_END
+--
+./fon/manual_soundFiles.cpp:271:INTRO (L"With this command, you save one or more selected @Sound and/or @LongSound objects "
+./fon/manual_soundFiles.cpp-272-	"as a single 16-bit big-endian NeXT/Sun (.au) file on disk. See the @@Sound files@ tutorial for more information.")
+./fon/manual_soundFiles.cpp-273-MAN_END
+--
+./fon/manual_soundFiles.cpp:276:INTRO (L"With this command, you save one or more selected @Sound and/or @LongSound objects "
+./fon/manual_soundFiles.cpp-277-	"as a single 16-bit little-endian NIST audio file on disk. See the @@Sound files@ tutorial for more information.")
+./fon/manual_soundFiles.cpp-278-MAN_END
+--
+./fon/manual_soundFiles.cpp:281:INTRO (L"With this command, you save one or more selected @Sound and/or @LongSound objects "
+./fon/manual_soundFiles.cpp-282-	"as a single 16-bit FLAC audio file on disk. See the @@Sound files@ tutorial for more information.")
+./fon/manual_soundFiles.cpp-283-MAN_END
+--
+./fon/manual_soundFiles.cpp:320:	"A @LongSound object will appear in the list.")
+./fon/manual_soundFiles.cpp-321-LIST_ITEM (L"2. Read the Kay sound file into memory with @@Read from file...@. "
+./fon/manual_soundFiles.cpp-322-	"A @Sound object will appear in the list.")
+--
+./fon/manual_soundFiles.cpp:324:	"A second @LongSound object will appear in the list.")
+./fon/manual_soundFiles.cpp-325-LIST_ITEM (L"4. Select the three objects and choose @@Save as WAV file...@ "
+./fon/manual_soundFiles.cpp-326-	"from the @@Save menu@.")
+--
+./fon/manual_soundFiles.cpp:334:	"are available in the @@Save menu@ of you select any combination of @LongSound "
+./fon/manual_soundFiles.cpp-335-	"and/or @Sound objects:")
+./fon/manual_soundFiles.cpp-336-LIST_ITEM (L"• @@Save as WAV file...@ (little-endian)")
+--
+./fon/manual_soundFiles.cpp:344:MAN_BEGIN (L"LongSound", L"ppgb", 20110131)
+./fon/manual_soundFiles.cpp-345-INTRO (L"One of the @@types of objects@ in Praat. See the @@Sound files@ tutorial.")
+./fon/manual_soundFiles.cpp:346:NORMAL (L"A LongSound object gives you the ability to view and label "
+./fon/manual_soundFiles.cpp-347-	"a sound file that resides on disk. You will want to use it for sounds "
+./fon/manual_soundFiles.cpp-348-	"that are too long to read into memory as a @Sound object (typically, a few minutes).")
+./fon/manual_soundFiles.cpp:349:ENTRY (L"How to create a LongSound object")
+./fon/manual_soundFiles.cpp:350:NORMAL (L"You create a LongSound object with @@Open long sound file...@ from the @@Open menu@.")
+./fon/manual_soundFiles.cpp:351:ENTRY (L"What you can do with a LongSound object")
+./fon/manual_soundFiles.cpp:352:NORMAL (L"You can save a LongSound object to a new sound file, "
+./fon/manual_soundFiles.cpp-353-	"perhaps in a different format (AIFF, AIFC, WAV, NeXT/Sun, NIST, FLAC) "
+./fon/manual_soundFiles.cpp-354-	"with the commands in the Save menu. You can also concatenate several "
+./fon/manual_soundFiles.cpp:355:	"LongSound objects in this way. See @@How to concatenate sound files@.")
+./fon/manual_soundFiles.cpp:356:ENTRY (L"How to view and edit a LongSound object")
+./fon/manual_soundFiles.cpp:357:NORMAL (L"You can view a LongSound object in a @LongSoundEditor by choosing @@LongSound: View@. "
+./fon/manual_soundFiles.cpp:358:	"This also allows you to extract parts of the LongSound as @Sound objects, "
+./fon/manual_soundFiles.cpp-359-	"or save these parts as a sound file. "
+./fon/manual_soundFiles.cpp-360-	"There are currently no ways to actually change the data in the file.")
+./fon/manual_soundFiles.cpp:361:ENTRY (L"How to annotate a LongSound object")
+./fon/manual_soundFiles.cpp:362:NORMAL (L"You can label and segment a LongSound object after the following steps:")
+./fon/manual_soundFiles.cpp:363:LIST_ITEM (L"1. Select the LongSound object.")
+./fon/manual_soundFiles.cpp:364:LIST_ITEM (L"2. Choose @@LongSound: To TextGrid...@ and specify your tiers.")
+./fon/manual_soundFiles.cpp:365:LIST_ITEM (L"3. Select the resulting @TextGrid object together with the LongSound object, and click ##View & Edit#.")
+./fon/manual_soundFiles.cpp:366:NORMAL (L"A @TextGridEditor will appear on the screen, with a copy of the LongSound object in it.")
+./fon/manual_soundFiles.cpp-367-ENTRY (L"Limitations")
+./fon/manual_soundFiles.cpp-368-NORMAL (L"The length of the sound file is limited to 2 gigabytes, which is 3 hours of CD-quality stereo, "
+--
+./fon/manual_soundFiles.cpp:372:MAN_BEGIN (L"LongSound: To TextGrid...", L"ppgb", 19980730)
+./fon/manual_soundFiles.cpp:373:INTRO (L"A command to create a @TextGrid without any labels, copying the time domain from the selected @LongSound.")
+./fon/manual_soundFiles.cpp-374-NORMAL (L"See @@Sound: To TextGrid...@ for the settings.")
+./fon/manual_soundFiles.cpp-375-MAN_END
+--
+./fon/manual_soundFiles.cpp:377:MAN_BEGIN (L"LongSound: View", L"ppgb", 19980730)
+./fon/manual_soundFiles.cpp:378:INTRO (L"A command to view the selected @LongSound object in a @LongSoundEditor.")
+./fon/manual_soundFiles.cpp-379-MAN_END
+./fon/manual_soundFiles.cpp-380-
+./fon/manual_soundFiles.cpp:381:MAN_BEGIN (L"LongSoundEditor", L"ppgb", 20041124)
+./fon/manual_soundFiles.cpp:382:INTRO (L"One of the @Editors in Praat, for viewing a @LongSound object.")
+./fon/manual_soundFiles.cpp-383-NORMAL (L"This viewer allows you:")
+./fon/manual_soundFiles.cpp-384-LIST_ITEM (L"• to view and hear parts of the sound as it is on disk;")
+--
+./fon/manual_soundFiles.cpp:389:NORMAL (L"To label and segment the LongSound object, use the @TextGridEditor instead (see @LongSound).")
+./fon/manual_soundFiles.cpp-390-NORMAL (L"The display and playback of the samples is restricted to 60 seconds at a time, for reasons of speed "
+./fon/manual_soundFiles.cpp:391:	"(although you can change this number with ##LongSound prefs# from the main #Preferences menu; "
+./fon/manual_soundFiles.cpp-392-	"the sound file itself can contain several hours of sound.")
+./fon/manual_soundFiles.cpp-393-MAN_END
+--
+./fon/manual_soundFiles.cpp:418:INTRO (L"A command in the @@Open menu@ that creates a @LongSound object.")
+./fon/manual_soundFiles.cpp:419:NORMAL (L"The file will be opened for reading only. The file stays open until you remove the LongSound object.")
+./fon/manual_soundFiles.cpp-420-MAN_END
+./fon/manual_soundFiles.cpp-421-
+--
+./fon/manual_tutorials.cpp:179:LIST_ITEM (L"• Windows: better handling (in the LongSound window) of sounds that are too long to play.")
+./fon/manual_tutorials.cpp-180-LIST_ITEM (L"• Mac: corrected a bug that caused Praat to crash when closing the Strings window.")
+./fon/manual_tutorials.cpp-181-LIST_ITEM (L"• Linux: made audio output work again on 32-bit Linux.")
+--
+./fon/manual_tutorials.cpp:213:LIST_ITEM (L"• Made the new Sound scaling options available for LongSounds.")
+./fon/manual_tutorials.cpp-214-NORMAL (L"##5.3.28# (28 September 2012)")
+./fon/manual_tutorials.cpp-215-LIST_ITEM (L"• Corrected a bug introduced in 5.3.24 that made Praat crash on OSX 10.5.")
+--
+./fon/manual_tutorials.cpp:253:LIST_ITEM (L"• Linux: better audio compatibility with Ubuntu 11.10 (support for unusual sampling frequencies when playing LongSounds).")
+./fon/manual_tutorials.cpp-254-NORMAL (L"##5.3.11# (27 March 2012)")
+./fon/manual_tutorials.cpp-255-LIST_ITEM (L"• @EEG: a selected ERPTier can extract events on the basis of a column of a selected Table.")
+--
+./fon/manual_tutorials.cpp:261:LIST_ITEM (L"• Removed a bug introduced in 5.3.07 that could cause Praat to crash when viewing a LongSound.")
+./fon/manual_tutorials.cpp-262-NORMAL (L"##5.3.07# (4 March 2012)")
+./fon/manual_tutorials.cpp-263-LIST_ITEM (L"• Praat can now save Sounds as 24-bit and 32-bit WAV files.")
+--
+./fon/manual_tutorials.cpp:342:LIST_ITEM (L"• Corrected a bug that could cause Praat to crash when playing a LongSound.")
+./fon/manual_tutorials.cpp-343-NORMAL (L"##5.2.33# (29 July 2011)")
+./fon/manual_tutorials.cpp-344-LIST_ITEM (L"• Improved the reliability of sound playing and several other things.")
+--
+./fon/manual_tutorials.cpp:351:LIST_ITEM (L"• Corrected a bug that caused incorrect error messages when opening a FLAC file as a LongSound.")
+./fon/manual_tutorials.cpp-352-LIST_ITEM (L"• Sound window: corrected a bug that could cause Praat to crash when zooming in on the left or right edge.")
+./fon/manual_tutorials.cpp-353-NORMAL (L"##5.2.30# (18 July 2011)")
+--
+./fon/manual_tutorials.cpp:872:LIST_ITEM (L"• Sound files: MP3 as LongSound (implemented by Erez Volk).")
+./fon/manual_tutorials.cpp-873-LIST_ITEM (L"• Scripting: Unicode support for strings and script window (Mac and Windows only).")
+./fon/manual_tutorials.cpp-874-NORMAL (L"##4.6.06# (4 June 2007)")
+--
+./fon/manual_tutorials.cpp:1199:	LIST_ITEM (L"• LongSound: save separate channels.")
+./fon/manual_tutorials.cpp-1200-	LIST_ITEM (L"• Macintosh: much faster reading of WAV files.")
+./fon/manual_tutorials.cpp-1201-	NORMAL (L"Listening experiments:")
+--
+./fon/manual_tutorials.cpp:1321:		"Sound, LongSound, and TextGrid editors.")
+./fon/manual_tutorials.cpp-1322-	LIST_ITEM (L"• TextGrid editor: additions and improvements.")
+./fon/manual_tutorials.cpp-1323-	LIST_ITEM (L"• @@Log files@.")
+--
+./fon/manual_tutorials.cpp:1369:	LIST_ITEM (L"• Stereo display in LongSound and TextGrid editors.")
+./fon/manual_tutorials.cpp:1370:	LIST_ITEM (L"• LongSoundEditor and TextGridEditor: write selection to audio file.")
+./fon/manual_tutorials.cpp-1371-	LIST_ITEM (L"• SoundEditor: added command \"Extract selection (preserve times)\".")
+./fon/manual_tutorials.cpp-1372-	LIST_ITEM (L"• IntervalTierEditor, DurationTierEditor.")
+--
+./fon/manual_tutorials.cpp:1380:	LIST_ITEM (L"• TextGrid:  modification commands, Extract part, Shift to zero, Scale times (with Sound or LongSound).")
+./fon/manual_tutorials.cpp-1381-	LIST_ITEM (L"• @@Matrix: To TableOfReal@, Draw contour...")
+./fon/manual_tutorials.cpp:1382:	LIST_ITEM (L"• Concatenate Sound and LongSound objects.")
+./fon/manual_tutorials.cpp-1383-	LIST_ITEM (L"• File formats: save PitchTier in spreadsheet format, read CGN syntax files (XML version), "
+./fon/manual_tutorials.cpp-1384-		"text files now completely file-server-safe (independent from Windows/Macintosh/Unix line separators).")
+--
+./fon/manual_tutorials.cpp:1410:	LIST_ITEM (L"• LongSound supports mono and stereo, 8-bit and 16-bit, %\\mu-law and A-law, "
+./fon/manual_tutorials.cpp-1411-		"big-endian and little-endian, AIFC, WAV, NeXT/Sun, and NIST files.")
+./fon/manual_tutorials.cpp-1412-	LIST_ITEM (L"• \"Read two Sounds from stereo file...\" supports 8-bit and 16-bit, %\\mu-law and A-law, "
+--
+./fon/manual_tutorials.cpp:1415:	LIST_ITEM (L"• Sound & LongSound: write part or whole to mono or stereo audio file.")
+./fon/manual_tutorials.cpp-1416-	LIST_ITEM (L"• Read Sound from raw Alaw file.")
+./fon/manual_tutorials.cpp-1417-	LIST_ITEM (L"• Artword & Speaker (& Sound) movie: real time on all platforms.")
+--
+./fon/manual_tutorials.cpp:1435:	LIST_ITEM (L"• New objects: @LongSound (view and label long sound files), with editor; PairDistribution.")
+./fon/manual_tutorials.cpp-1436-	LIST_ITEM (L"• @@Overlap-add@ manipulation of voiceless intervals, version 2: quality much better now; "
+./fon/manual_tutorials.cpp-1437-		"target duration is exactly as expected from Duration tier or specified lengthening in @@Sound: Lengthen (overlap-add)...@.")
+--
+./fon/manual_tutorials.cpp:2213:	"This puts a @LongSound object into the list. In this way, most of the sound will stay in the file on disk, "
+./fon/manual_tutorials.cpp-2214-	"and at most 60 seconds will be read into memory each time you play or view a part of it. "
+./fon/manual_tutorials.cpp:2215:	"To change these 60 seconds to something else, e.g. 500 seconds, choose ##LongSound prefs...# from the #Preferences submenu.")
+./fon/manual_tutorials.cpp-2216-MAN_END
+./fon/manual_tutorials.cpp-2217-
+--
+./fon/manual_tutorials.cpp:2233:	"select a @Sound or @LongSound object and choose @@View & Edit@. "
+./fon/manual_tutorials.cpp:2234:	"A @SoundEditor or @LongSoundEditor window will appear on your screen. "
+./fon/manual_tutorials.cpp-2235-	"In the entire bottom half of this window you will see a greyish image, which is called a %spectrogram. "
+./fon/manual_tutorials.cpp-2236-	"If you do not see it, choose @@Show spectrogram@ from the #Spectrogram menu.")
+--
+./fon/manual_tutorials.cpp:2506:	"select a @Sound or @LongSound object and choose @@View & Edit@. "
+./fon/manual_tutorials.cpp-2507-	"A @SoundEditor window will appear on your screen. "
+./fon/manual_tutorials.cpp-2508-	"The bottom half of this window will contain a pitch contour, drawn as a blue line or as a sequence of blue dots. "
+--
+./fon/manual_tutorials.cpp:2661:NORMAL (L"To see the formant contours of a sound as functions of time, select a @Sound or @LongSound object and choose @@View & Edit@. "
+./fon/manual_tutorials.cpp-2662-	"A @SoundEditor window will appear on your screen. "
+./fon/manual_tutorials.cpp-2663-	"The analysis part of this window will contain formant contours, drawn as red speckles. "
+--
+./fon/manual_tutorials.cpp:2706:INTRO (L"To see the intensity contour of a sound as a function of time, select a @Sound or @LongSound object and choose @@View & Edit@. "
+./fon/manual_tutorials.cpp-2707-	"A @SoundEditor window will appear on your screen. "
+./fon/manual_tutorials.cpp-2708-	"The analysis part of this window will contain an intensity contour, drawn as a yellow or green line "
+--
+./fon/manual_tutorials.cpp:2764:INTRO (L"You can annotate existing @Sound objects and sound files (@LongSound objects).")
+./fon/manual_tutorials.cpp-2765-NORMAL (L"The labelling data will reside in a @TextGrid object. This object is separate "
+./fon/manual_tutorials.cpp:2766:	"from the sound, which means that you will often see two objects in the list: a Sound or LongSound, "
+./fon/manual_tutorials.cpp-2767-	"and a TextGrid.")
+./fon/manual_tutorials.cpp-2768-ENTRY (L"Creating a TextGrid")
+./fon/manual_tutorials.cpp:2769:NORMAL (L"You create a new empty TextGrid from the Sound or LongSound with @@Sound: To TextGrid...@ "
+./fon/manual_tutorials.cpp:2770:	"or @@LongSound: To TextGrid...@ from the #Annotate menu (which shows up in the Objects window if you select a Sound or LongSound). In this way, the time domain "
+./fon/manual_tutorials.cpp-2771-	"of the @TextGrid will automatically equal that of the sound (if you choose @@Create TextGrid...@ from "
+./fon/manual_tutorials.cpp-2772-	"the @@New menu@ instead, you will have to supply the time domain by yourself).")
+--
+./fon/manual_tutorials.cpp:2781:	"the sound in the editor window as well. To achieve this, you select both the Sound (or LongSound) and "
+./fon/manual_tutorials.cpp-2782-	"the TextGrid, and click @@View & Edit@. A @TextGridEditor will appear on your screen. "
+./fon/manual_tutorials.cpp-2783-	"Like the Sound editor, the TextGrid editor will show you a spectrogram, a pitch contour, a formant contour, "
+--
+./fon/manual_tutorials.cpp:3540:LIST_ITEM (L"• @LongSound: a file-based version of a sound (@LongSoundEditor)")
+./fon/manual_tutorials.cpp-3541-LIST_ITEM (L"• @Strings")
+./fon/manual_tutorials.cpp-3542-LIST_ITEM (L"• @Distributions, @PairDistribution")
+--
+./fon/praat_Sound_init.cpp:23:#include "LongSound.h"
+./fon/praat_Sound_init.cpp-24-#include "Manipulation.h"
+./fon/praat_Sound_init.cpp-25-#include "ParamCurve.h"
+--
+./fon/praat_Sound_init.cpp:51:/***** LONGSOUND *****/
+./fon/praat_Sound_init.cpp-52-
+./fon/praat_Sound_init.cpp:53:DIRECT2 (LongSound_concatenate) {
+./fon/praat_Sound_init.cpp:54:	Melder_information (L"To concatenate LongSound objects, select them in the list\nand choose \"Save as WAV file...\" or a similar command.\n"
+./fon/praat_Sound_init.cpp-55-		"The result will be a sound file that contains\nthe concatenation of the selected sounds.");
+./fon/praat_Sound_init.cpp-56-END2 }
+--
+./fon/praat_Sound_init.cpp:58:FORM (LongSound_extractPart, L"LongSound: Extract part", 0) {
+./fon/praat_Sound_init.cpp-59-	REAL (L"left Time range (s)", L"0.0")
+./fon/praat_Sound_init.cpp-60-	REAL (L"right Time range (s)", L"1.0")
+--
+./fon/praat_Sound_init.cpp:65:		iam (LongSound);
+./fon/praat_Sound_init.cpp:66:		autoSound thee = LongSound_extractPart (me, GET_REAL (L"left Time range"), GET_REAL (L"right Time range"), GET_INTEGER (L"Preserve times"));
+./fon/praat_Sound_init.cpp-67-		praat_new (thee.transfer(), my name);
+./fon/praat_Sound_init.cpp-68-	}
+--
+./fon/praat_Sound_init.cpp:71:FORM (LongSound_getIndexFromTime, L"LongSound: Get sample index from time", L"Sound: Get index from time...") {
+./fon/praat_Sound_init.cpp-72-	REAL (L"Time (s)", L"0.5")
+./fon/praat_Sound_init.cpp-73-	OK2
+--
+./fon/praat_Sound_init.cpp:76:		iam (LongSound);
+./fon/praat_Sound_init.cpp-77-		double index = Sampled_xToIndex (me, GET_REAL (L"Time"));
+./fon/praat_Sound_init.cpp-78-		Melder_informationReal (index, NULL);
+--
+./fon/praat_Sound_init.cpp:82:DIRECT2 (LongSound_getSamplePeriod) {
+./fon/praat_Sound_init.cpp-83-	LOOP {
+./fon/praat_Sound_init.cpp:84:		iam (LongSound);
+./fon/praat_Sound_init.cpp-85-		Melder_informationReal (my dx, L"seconds");
+./fon/praat_Sound_init.cpp-86-	}
+--
+./fon/praat_Sound_init.cpp:89:DIRECT2 (LongSound_getSampleRate) {
+./fon/praat_Sound_init.cpp-90-	LOOP {
+./fon/praat_Sound_init.cpp:91:		iam (LongSound);
+./fon/praat_Sound_init.cpp-92-		Melder_informationReal (1.0 / my dx, L"Hz");
+./fon/praat_Sound_init.cpp-93-	}
+--
+./fon/praat_Sound_init.cpp:96:FORM (LongSound_getTimeFromIndex, L"LongSound: Get time from sample index", L"Sound: Get time from index...") {
+./fon/praat_Sound_init.cpp-97-	INTEGER (L"Sample index", L"100")
+./fon/praat_Sound_init.cpp-98-	OK2
+--
+./fon/praat_Sound_init.cpp:101:		iam (LongSound);
+./fon/praat_Sound_init.cpp-102-		Melder_informationReal (Sampled_indexToX (me, GET_INTEGER (L"Sample index")), L"seconds");
+./fon/praat_Sound_init.cpp-103-	}
+--
+./fon/praat_Sound_init.cpp:106:DIRECT2 (LongSound_getNumberOfSamples) {
+./fon/praat_Sound_init.cpp-107-	LOOP {
+./fon/praat_Sound_init.cpp:108:		iam (LongSound);
+./fon/praat_Sound_init.cpp-109-		Melder_information (Melder_integer (my nx), L" samples");
+./fon/praat_Sound_init.cpp-110-	}
+--
+./fon/praat_Sound_init.cpp:113:DIRECT2 (LongSound_help) { Melder_help (L"LongSound"); END2 }
+./fon/praat_Sound_init.cpp-114-
+./fon/praat_Sound_init.cpp:115:FORM_READ2 (LongSound_open, L"Open long sound file", 0, true) {
+./fon/praat_Sound_init.cpp:116:	autoLongSound me = LongSound_open (file);
+./fon/praat_Sound_init.cpp-117-	praat_new (me.transfer(), MelderFile_name (file));
+./fon/praat_Sound_init.cpp-118-END2 }
+--
+./fon/praat_Sound_init.cpp:120:FORM (LongSound_playPart, L"LongSound: Play part", 0) {
+./fon/praat_Sound_init.cpp-121-	REAL (L"left Time range (s)", L"0.0")
+./fon/praat_Sound_init.cpp-122-	REAL (L"right Time range (s)", L"10.0")
+--
+./fon/praat_Sound_init.cpp:129:			iam (LongSound);
+./fon/praat_Sound_init.cpp:130:			LongSound_playPart (me, GET_REAL (L"left Time range"), GET_REAL (L"right Time range"), NULL, NULL);
+./fon/praat_Sound_init.cpp-131-		}
+./fon/praat_Sound_init.cpp-132-	} else {
+--
+./fon/praat_Sound_init.cpp:135:			iam (LongSound);
+./fon/praat_Sound_init.cpp:136:			LongSound_playPart (me, GET_REAL (L"left Time range"), GET_REAL (L"right Time range"), NULL, NULL);
+./fon/praat_Sound_init.cpp-137-		}
+./fon/praat_Sound_init.cpp-138-		MelderAudio_setOutputMaximumAsynchronicity (kMelder_asynchronicityLevel_ASYNCHRONOUS);
+--
+./fon/praat_Sound_init.cpp:142:FORM (LongSound_writePartToAudioFile, L"LongSound: Save part as audio file", 0) {
+./fon/praat_Sound_init.cpp-143-	LABEL (L"", L"Audio file:")
+./fon/praat_Sound_init.cpp-144-	TEXTFIELD (L"Audio file", L"")
+--
+./fon/praat_Sound_init.cpp:154:		iam (LongSound);
+./fon/praat_Sound_init.cpp-155-		structMelderFile file = { 0 };
+./fon/praat_Sound_init.cpp-156-		Melder_relativePathToFile (GET_STRING (L"Audio file"), & file);
+./fon/praat_Sound_init.cpp:157:		LongSound_writePartToAudioFile (me, GET_INTEGER (L"Type"),
+./fon/praat_Sound_init.cpp-158-			GET_REAL (L"left Time range"), GET_REAL (L"right Time range"), & file);
+./fon/praat_Sound_init.cpp-159-	}
+--
+./fon/praat_Sound_init.cpp:162:FORM (LongSound_to_TextGrid, L"LongSound: To TextGrid...", L"LongSound: To TextGrid...") {
+./fon/praat_Sound_init.cpp-163-	SENTENCE (L"Tier names", L"Mary John bell")
+./fon/praat_Sound_init.cpp-164-	SENTENCE (L"Point tiers", L"bell")
+--
+./fon/praat_Sound_init.cpp:168:		iam (LongSound);
+./fon/praat_Sound_init.cpp-169-		autoTextGrid thee = TextGrid_create (my xmin, my xmax, GET_STRING (L"Tier names"), GET_STRING (L"Point tiers"));
+./fon/praat_Sound_init.cpp-170-		praat_new (thee.transfer(), my name);
+--
+./fon/praat_Sound_init.cpp:174:DIRECT2 (LongSound_view) {
+./fon/praat_Sound_init.cpp:175:	if (theCurrentPraatApplication -> batch) Melder_throw ("Cannot view or edit a LongSound from batch.");
+./fon/praat_Sound_init.cpp-176-	LOOP {
+./fon/praat_Sound_init.cpp:177:		iam (LongSound);
+./fon/praat_Sound_init.cpp-178-		autoSoundEditor editor = SoundEditor_create (ID_AND_FULL_NAME, me);
+./fon/praat_Sound_init.cpp-179-		praat_installEditor (editor.transfer(), IOBJECT);
+--
+./fon/praat_Sound_init.cpp:183:FORM_WRITE2 (LongSound_writeToAifcFile, L"Save as AIFC file", 0, L"aifc") {
+./fon/praat_Sound_init.cpp-184-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:185:	LongSound_concatenate (set.peek(), file, Melder_AIFC, 16);
+./fon/praat_Sound_init.cpp-186-END2 }
+./fon/praat_Sound_init.cpp-187-
+./fon/praat_Sound_init.cpp:188:FORM_WRITE2 (LongSound_writeToAiffFile, L"Save as AIFF file", 0, L"aiff") {
+./fon/praat_Sound_init.cpp-189-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:190:	LongSound_concatenate (set.peek(), file, Melder_AIFF, 16);
+./fon/praat_Sound_init.cpp-191-END2 }
+./fon/praat_Sound_init.cpp-192-
+./fon/praat_Sound_init.cpp:193:FORM_WRITE2 (LongSound_writeToNextSunFile, L"Save as NeXT/Sun file", 0, L"au") {
+./fon/praat_Sound_init.cpp-194-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:195:	LongSound_concatenate (set.peek(), file, Melder_NEXT_SUN, 16);
+./fon/praat_Sound_init.cpp-196-END2 }
+./fon/praat_Sound_init.cpp-197-
+./fon/praat_Sound_init.cpp:198:FORM_WRITE2 (LongSound_writeToNistFile, L"Save as NIST file", 0, L"nist") {
+./fon/praat_Sound_init.cpp-199-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:200:	LongSound_concatenate (set.peek(), file, Melder_NIST, 16);
+./fon/praat_Sound_init.cpp-201-END2 }
+./fon/praat_Sound_init.cpp-202-
+./fon/praat_Sound_init.cpp:203:FORM_WRITE2 (LongSound_writeToFlacFile, L"Save as FLAC file", 0, L"flac") {
+./fon/praat_Sound_init.cpp-204-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:205:	LongSound_concatenate (set.peek(), file, Melder_FLAC, 16);
+./fon/praat_Sound_init.cpp-206-END2 }
+./fon/praat_Sound_init.cpp-207-
+./fon/praat_Sound_init.cpp:208:FORM_WRITE2 (LongSound_writeToWavFile, L"Save as WAV file", 0, L"wav") {
+./fon/praat_Sound_init.cpp-209-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:210:	LongSound_concatenate (set.peek(), file, Melder_WAV, 16);
+./fon/praat_Sound_init.cpp-211-END2 }
+./fon/praat_Sound_init.cpp-212-
+./fon/praat_Sound_init.cpp:213:FORM_WRITE2 (LongSound_writeLeftChannelToAifcFile, L"Save left channel as AIFC file", 0, L"aifc") {
+./fon/praat_Sound_init.cpp-214-	LOOP {
+./fon/praat_Sound_init.cpp:215:		iam (LongSound);
+./fon/praat_Sound_init.cpp:216:		LongSound_writeChannelToAudioFile (me, Melder_AIFC, 0, file);
+./fon/praat_Sound_init.cpp-217-	}
+./fon/praat_Sound_init.cpp-218-END2 }
+--
+./fon/praat_Sound_init.cpp:220:FORM_WRITE2 (LongSound_writeLeftChannelToAiffFile, L"Save left channel as AIFF file", 0, L"aiff") {
+./fon/praat_Sound_init.cpp-221-	LOOP {
+./fon/praat_Sound_init.cpp:222:		iam (LongSound);
+./fon/praat_Sound_init.cpp:223:		LongSound_writeChannelToAudioFile (me, Melder_AIFF, 0, file);
+./fon/praat_Sound_init.cpp-224-	}
+./fon/praat_Sound_init.cpp-225-END2 }
+--
+./fon/praat_Sound_init.cpp:227:FORM_WRITE2 (LongSound_writeLeftChannelToNextSunFile, L"Save left channel as NeXT/Sun file", 0, L"au") {
+./fon/praat_Sound_init.cpp-228-	LOOP {
+./fon/praat_Sound_init.cpp:229:		iam (LongSound);
+./fon/praat_Sound_init.cpp:230:		LongSound_writeChannelToAudioFile (me, Melder_NEXT_SUN, 0, file);
+./fon/praat_Sound_init.cpp-231-	}
+./fon/praat_Sound_init.cpp-232-END2 }
+--
+./fon/praat_Sound_init.cpp:234:FORM_WRITE2 (LongSound_writeLeftChannelToNistFile, L"Save left channel as NIST file", 0, L"nist") {
+./fon/praat_Sound_init.cpp-235-	LOOP {
+./fon/praat_Sound_init.cpp:236:		iam (LongSound);
+./fon/praat_Sound_init.cpp:237:		LongSound_writeChannelToAudioFile (me, Melder_NIST, 0, file);
+./fon/praat_Sound_init.cpp-238-	}
+./fon/praat_Sound_init.cpp-239-END2 }
+--
+./fon/praat_Sound_init.cpp:241:FORM_WRITE2 (LongSound_writeLeftChannelToFlacFile, L"Save left channel as FLAC file", 0, L"flac") {
+./fon/praat_Sound_init.cpp-242-	LOOP {
+./fon/praat_Sound_init.cpp:243:		iam (LongSound);
+./fon/praat_Sound_init.cpp:244:		LongSound_writeChannelToAudioFile (me, Melder_FLAC, 0, file);
+./fon/praat_Sound_init.cpp-245-	}
+./fon/praat_Sound_init.cpp-246-END2 }
+--
+./fon/praat_Sound_init.cpp:248:FORM_WRITE2 (LongSound_writeLeftChannelToWavFile, L"Save left channel as WAV file", 0, L"wav") {
+./fon/praat_Sound_init.cpp-249-	LOOP {
+./fon/praat_Sound_init.cpp:250:		iam (LongSound);
+./fon/praat_Sound_init.cpp:251:		LongSound_writeChannelToAudioFile (me, Melder_WAV, 0, file);
+./fon/praat_Sound_init.cpp-252-	}
+./fon/praat_Sound_init.cpp-253-END2 }
+--
+./fon/praat_Sound_init.cpp:255:FORM_WRITE2 (LongSound_writeRightChannelToAifcFile, L"Save right channel as AIFC file", 0, L"aifc") {
+./fon/praat_Sound_init.cpp-256-	LOOP {
+./fon/praat_Sound_init.cpp:257:		iam (LongSound);
+./fon/praat_Sound_init.cpp:258:		LongSound_writeChannelToAudioFile (me, Melder_AIFC, 1, file);
+./fon/praat_Sound_init.cpp-259-	}
+./fon/praat_Sound_init.cpp-260-END2 }
+--
+./fon/praat_Sound_init.cpp:262:FORM_WRITE2 (LongSound_writeRightChannelToAiffFile, L"Save right channel as AIFF file", 0, L"aiff") {
+./fon/praat_Sound_init.cpp-263-	LOOP {
+./fon/praat_Sound_init.cpp:264:		iam (LongSound);
+./fon/praat_Sound_init.cpp:265:		LongSound_writeChannelToAudioFile (me, Melder_AIFF, 1, file);
+./fon/praat_Sound_init.cpp-266-	}
+./fon/praat_Sound_init.cpp-267-END2 }
+--
+./fon/praat_Sound_init.cpp:269:FORM_WRITE2 (LongSound_writeRightChannelToNextSunFile, L"Save right channel as NeXT/Sun file", 0, L"au") {
+./fon/praat_Sound_init.cpp-270-	LOOP {
+./fon/praat_Sound_init.cpp:271:		iam (LongSound);
+./fon/praat_Sound_init.cpp:272:		LongSound_writeChannelToAudioFile (me, Melder_NEXT_SUN, 1, file);
+./fon/praat_Sound_init.cpp-273-	}
+./fon/praat_Sound_init.cpp-274-END2 }
+--
+./fon/praat_Sound_init.cpp:276:FORM_WRITE2 (LongSound_writeRightChannelToNistFile, L"Save right channel as NIST file", 0, L"nist") {
+./fon/praat_Sound_init.cpp-277-	LOOP {
+./fon/praat_Sound_init.cpp:278:		iam (LongSound);
+./fon/praat_Sound_init.cpp:279:		LongSound_writeChannelToAudioFile (me, Melder_NIST, 1, file);
+./fon/praat_Sound_init.cpp-280-	}
+./fon/praat_Sound_init.cpp-281-END2 }
+--
+./fon/praat_Sound_init.cpp:283:FORM_WRITE2 (LongSound_writeRightChannelToFlacFile, L"Save right channel as FLAC file", 0, L"flac") {
+./fon/praat_Sound_init.cpp-284-	LOOP {
+./fon/praat_Sound_init.cpp:285:		iam (LongSound);
+./fon/praat_Sound_init.cpp:286:		LongSound_writeChannelToAudioFile (me, Melder_FLAC, 1, file);
+./fon/praat_Sound_init.cpp-287-	}
+./fon/praat_Sound_init.cpp-288-END2 }
+--
+./fon/praat_Sound_init.cpp:290:FORM_WRITE2 (LongSound_writeRightChannelToWavFile, L"Save right channel as WAV file", 0, L"wav") {
+./fon/praat_Sound_init.cpp-291-	LOOP {
+./fon/praat_Sound_init.cpp:292:		iam (LongSound);
+./fon/praat_Sound_init.cpp:293:		LongSound_writeChannelToAudioFile (me, Melder_WAV, 1, file);
+./fon/praat_Sound_init.cpp-294-	}
+./fon/praat_Sound_init.cpp-295-END2 }
+--
+./fon/praat_Sound_init.cpp:297:FORM (LongSoundPrefs, L"LongSound preferences", L"LongSound") {
+./fon/praat_Sound_init.cpp-298-	LABEL (L"", L"This setting determines the maximum number of seconds")
+./fon/praat_Sound_init.cpp:299:	LABEL (L"", L"for viewing the waveform and playing a sound in the LongSound window.")
+./fon/praat_Sound_init.cpp:300:	LABEL (L"", L"The LongSound window can become very slow if you set it too high.")
+./fon/praat_Sound_init.cpp-301-	NATURAL (L"Maximum viewable part (seconds)", L"60")
+./fon/praat_Sound_init.cpp-302-	LABEL (L"", L"Note: this setting works for the next long sound file that you open,")
+./fon/praat_Sound_init.cpp:303:	LABEL (L"", L"not for currently existing LongSound objects.")
+./fon/praat_Sound_init.cpp-304-	OK2
+./fon/praat_Sound_init.cpp:305:SET_INTEGER (L"Maximum viewable part", LongSound_getBufferSizePref_seconds ())
+./fon/praat_Sound_init.cpp-306-DO
+./fon/praat_Sound_init.cpp:307:	LongSound_setBufferSizePref_seconds (GET_INTEGER (L"Maximum viewable part"));
+./fon/praat_Sound_init.cpp-308-END2 }
+./fon/praat_Sound_init.cpp-309-
+./fon/praat_Sound_init.cpp:310:/********** LONGSOUND & SOUND **********/
+./fon/praat_Sound_init.cpp-311-
+./fon/praat_Sound_init.cpp:312:FORM_WRITE2 (LongSound_Sound_writeToAifcFile, L"Save as AIFC file", 0, L"aifc") {
+./fon/praat_Sound_init.cpp-313-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:314:	LongSound_concatenate (set.peek(), file, Melder_AIFC, 16);
+./fon/praat_Sound_init.cpp-315-END2 }
+./fon/praat_Sound_init.cpp-316-
+./fon/praat_Sound_init.cpp:317:FORM_WRITE2 (LongSound_Sound_writeToAiffFile, L"Save as AIFF file", 0, L"aiff") {
+./fon/praat_Sound_init.cpp-318-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:319:	LongSound_concatenate (set.peek(), file, Melder_AIFF, 16);
+./fon/praat_Sound_init.cpp-320-END2 }
+./fon/praat_Sound_init.cpp-321-
+./fon/praat_Sound_init.cpp:322:FORM_WRITE2 (LongSound_Sound_writeToNextSunFile, L"Save as NeXT/Sun file", 0, L"au") {
+./fon/praat_Sound_init.cpp-323-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:324:	LongSound_concatenate (set.peek(), file, Melder_NEXT_SUN, 16);
+./fon/praat_Sound_init.cpp-325-END2 }
+./fon/praat_Sound_init.cpp-326-
+./fon/praat_Sound_init.cpp:327:FORM_WRITE2 (LongSound_Sound_writeToNistFile, L"Save as NIST file", 0, L"nist") {
+./fon/praat_Sound_init.cpp-328-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:329:	LongSound_concatenate (set.peek(), file, Melder_NIST, 16);
+./fon/praat_Sound_init.cpp-330-END2 }
+./fon/praat_Sound_init.cpp-331-
+./fon/praat_Sound_init.cpp:332:FORM_WRITE2 (LongSound_Sound_writeToFlacFile, L"Save as FLAC file", 0, L"flac") {
+./fon/praat_Sound_init.cpp-333-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:334:	LongSound_concatenate (set.peek(), file, Melder_FLAC, 16);
+./fon/praat_Sound_init.cpp-335-END2 }
+./fon/praat_Sound_init.cpp-336-
+./fon/praat_Sound_init.cpp:337:FORM_WRITE2 (LongSound_Sound_writeToWavFile, L"Save as WAV file", 0, L"wav") {
+./fon/praat_Sound_init.cpp-338-	autoCollection set = praat_getSelectedObjects ();
+./fon/praat_Sound_init.cpp:339:	LongSound_concatenate (set.peek(), file, Melder_WAV, 16);
+./fon/praat_Sound_init.cpp-340-END2 }
+./fon/praat_Sound_init.cpp-341-
+--
+./fon/praat_Sound_init.cpp:1480:	LongSound_concatenate (set.peek(), file, Melder_WAV, 24);
+./fon/praat_Sound_init.cpp-1481-END2 }
+./fon/praat_Sound_init.cpp-1482-
+--
+./fon/praat_Sound_init.cpp:1485:	LongSound_concatenate (set.peek(), file, Melder_WAV, 32);
+./fon/praat_Sound_init.cpp-1486-END2 }
+./fon/praat_Sound_init.cpp-1487-
+--
+./fon/praat_Sound_init.cpp:2053:	LongSound_concatenate (set.peek(), file, Melder_AIFC, 16);
+./fon/praat_Sound_init.cpp-2054-END2 }
+./fon/praat_Sound_init.cpp-2055-
+--
+./fon/praat_Sound_init.cpp:2058:	LongSound_concatenate (set.peek(), file, Melder_AIFF, 16);
+./fon/praat_Sound_init.cpp-2059-END2 }
+./fon/praat_Sound_init.cpp-2060-
+--
+./fon/praat_Sound_init.cpp:2063:	LongSound_concatenate (set.peek(), file, Melder_FLAC, 16);
+./fon/praat_Sound_init.cpp-2064-END2 }
+./fon/praat_Sound_init.cpp-2065-
+--
+./fon/praat_Sound_init.cpp:2075:	LongSound_concatenate (set.peek(), file, Melder_NEXT_SUN, 16);
+./fon/praat_Sound_init.cpp-2076-END2 }
+./fon/praat_Sound_init.cpp-2077-
+--
+./fon/praat_Sound_init.cpp:2080:	LongSound_concatenate (set.peek(), file, Melder_NIST, 16);
+./fon/praat_Sound_init.cpp-2081-END2 }
+./fon/praat_Sound_init.cpp-2082-
+--
+./fon/praat_Sound_init.cpp:2184:	LongSound_concatenate (set.peek(), file, Melder_NEXT_SUN, 16);
+./fon/praat_Sound_init.cpp-2185-END2 }
+./fon/praat_Sound_init.cpp-2186-
+--
+./fon/praat_Sound_init.cpp:2189:	LongSound_concatenate (set.peek(), file, Melder_WAV, 16);
+./fon/praat_Sound_init.cpp-2190-END2 }
+./fon/praat_Sound_init.cpp-2191-
+--
+./fon/praat_Sound_init.cpp:2311:	LongSound_preferences ();
+./fon/praat_Sound_init.cpp-2312-	structTimeSoundEditor         :: f_preferences ();
+./fon/praat_Sound_init.cpp-2313-	structTimeSoundAnalysisEditor :: f_preferences ();
+--
+./fon/praat_Sound_init.cpp:2333:	praat_addMenuCommand (L"Objects", L"Open", L"Open long sound file...", 0, 'L', DO_LongSound_open);
+./fon/praat_Sound_init.cpp-2334-	praat_addMenuCommand (L"Objects", L"Open", L"Read two Sounds from stereo file...", 0, praat_HIDDEN, DO_Sound_readSeparateChannelsFromSoundFile);   // deprecated 2010
+./fon/praat_Sound_init.cpp-2335-	praat_addMenuCommand (L"Objects", L"Open", L"Read separate channels from sound file...", 0, 0, DO_Sound_readSeparateChannelsFromSoundFile);
+--
+./fon/praat_Sound_init.cpp:2343:	praat_addMenuCommand (L"Objects", L"Preferences", L"LongSound preferences...", 0, 0, DO_LongSoundPrefs);
+./fon/praat_Sound_init.cpp-2344-
+./fon/praat_Sound_init.cpp:2345:	praat_addAction1 (classLongSound, 0, L"LongSound help", 0, 0, DO_LongSound_help);
+./fon/praat_Sound_init.cpp:2346:	praat_addAction1 (classLongSound, 1, L"View", 0, praat_ATTRACTIVE, DO_LongSound_view);
+./fon/praat_Sound_init.cpp:2347:	praat_addAction1 (classLongSound, 1, L"Open", 0, praat_HIDDEN, DO_LongSound_view);   // deprecated 2011
+./fon/praat_Sound_init.cpp:2348:	praat_addAction1 (classLongSound, 0, L"Play part...", 0, 0, DO_LongSound_playPart);
+./fon/praat_Sound_init.cpp:2349:	praat_addAction1 (classLongSound, 1, L"Query -", 0, 0, 0);
+./fon/praat_Sound_init.cpp:2350:		praat_TimeFunction_query_init (classLongSound);
+./fon/praat_Sound_init.cpp:2351:		praat_addAction1 (classLongSound, 1, L"Sampling", 0, 1, 0);
+./fon/praat_Sound_init.cpp:2352:		praat_addAction1 (classLongSound, 1, L"Get number of samples", 0, 2, DO_LongSound_getNumberOfSamples);
+./fon/praat_Sound_init.cpp:2353:		praat_addAction1 (classLongSound, 1, L"Get sampling period", 0, 2, DO_LongSound_getSamplePeriod);
+./fon/praat_Sound_init.cpp:2354:							praat_addAction1 (classLongSound, 1, L"Get sample duration", 0, praat_HIDDEN + praat_DEPTH_2, DO_LongSound_getSamplePeriod);
+./fon/praat_Sound_init.cpp:2355:							praat_addAction1 (classLongSound, 1, L"Get sample period", 0, praat_HIDDEN + praat_DEPTH_2, DO_LongSound_getSamplePeriod);
+./fon/praat_Sound_init.cpp:2356:		praat_addAction1 (classLongSound, 1, L"Get sampling frequency", 0, 2, DO_LongSound_getSampleRate);
+./fon/praat_Sound_init.cpp:2357:							praat_addAction1 (classLongSound, 1, L"Get sample rate", 0, praat_HIDDEN + praat_DEPTH_2, DO_LongSound_getSampleRate);   // deprecated 2004
+./fon/praat_Sound_init.cpp:2358:		praat_addAction1 (classLongSound, 1, L"-- get time discretization --", 0, 2, 0);
+./fon/praat_Sound_init.cpp:2359:		praat_addAction1 (classLongSound, 1, L"Get time from sample number...", 0, 2, DO_LongSound_getTimeFromIndex);
+./fon/praat_Sound_init.cpp:2360:							praat_addAction1 (classLongSound, 1, L"Get time from index...", 0, praat_HIDDEN + praat_DEPTH_2, DO_LongSound_getTimeFromIndex);
+./fon/praat_Sound_init.cpp:2361:		praat_addAction1 (classLongSound, 1, L"Get sample number from time...", 0, 2, DO_LongSound_getIndexFromTime);
+./fon/praat_Sound_init.cpp:2362:							praat_addAction1 (classLongSound, 1, L"Get index from time...", 0, praat_HIDDEN + praat_DEPTH_2, DO_LongSound_getIndexFromTime);
+./fon/praat_Sound_init.cpp:2363:	praat_addAction1 (classLongSound, 0, L"Annotate -", 0, 0, 0);
+./fon/praat_Sound_init.cpp:2364:		praat_addAction1 (classLongSound, 0, L"Annotation tutorial", 0, 1, DO_AnnotationTutorial);
+./fon/praat_Sound_init.cpp:2365:		praat_addAction1 (classLongSound, 0, L"-- to text grid --", 0, 1, 0);
+./fon/praat_Sound_init.cpp:2366:		praat_addAction1 (classLongSound, 0, L"To TextGrid...", 0, 1, DO_LongSound_to_TextGrid);
+./fon/praat_Sound_init.cpp:2367:	praat_addAction1 (classLongSound, 0, L"Convert to Sound", 0, 0, 0);
+./fon/praat_Sound_init.cpp:2368:	praat_addAction1 (classLongSound, 0, L"Extract part...", 0, 0, DO_LongSound_extractPart);
+./fon/praat_Sound_init.cpp:2369:	praat_addAction1 (classLongSound, 0, L"Concatenate?", 0, 0, DO_LongSound_concatenate);
+./fon/praat_Sound_init.cpp:2370:	praat_addAction1 (classLongSound, 0, L"Save as WAV file...", 0, 0, DO_LongSound_writeToWavFile);
+./fon/praat_Sound_init.cpp:2371:	praat_addAction1 (classLongSound, 0, L"Write to WAV file...", 0, praat_HIDDEN, DO_LongSound_writeToWavFile);
+./fon/praat_Sound_init.cpp:2372:	praat_addAction1 (classLongSound, 0, L"Save as AIFF file...", 0, 0, DO_LongSound_writeToAiffFile);
+./fon/praat_Sound_init.cpp:2373:	praat_addAction1 (classLongSound, 0, L"Write to AIFF file...", 0, praat_HIDDEN, DO_LongSound_writeToAiffFile);
+./fon/praat_Sound_init.cpp:2374:	praat_addAction1 (classLongSound, 0, L"Save as AIFC file...", 0, 0, DO_LongSound_writeToAifcFile);
+./fon/praat_Sound_init.cpp:2375:	praat_addAction1 (classLongSound, 0, L"Write to AIFC file...", 0, praat_HIDDEN, DO_LongSound_writeToAifcFile);
+./fon/praat_Sound_init.cpp:2376:	praat_addAction1 (classLongSound, 0, L"Save as Next/Sun file...", 0, 0, DO_LongSound_writeToNextSunFile);
+./fon/praat_Sound_init.cpp:2377:	praat_addAction1 (classLongSound, 0, L"Write to Next/Sun file...", 0, praat_HIDDEN, DO_LongSound_writeToNextSunFile);
+./fon/praat_Sound_init.cpp:2378:	praat_addAction1 (classLongSound, 0, L"Save as NIST file...", 0, 0, DO_LongSound_writeToNistFile);
+./fon/praat_Sound_init.cpp:2379:	praat_addAction1 (classLongSound, 0, L"Write to NIST file...", 0, praat_HIDDEN, DO_LongSound_writeToNistFile);
+./fon/praat_Sound_init.cpp:2380:	praat_addAction1 (classLongSound, 0, L"Save as FLAC file...", 0, 0, DO_LongSound_writeToFlacFile);
+./fon/praat_Sound_init.cpp:2381:	praat_addAction1 (classLongSound, 0, L"Write to FLAC file...", 0, praat_HIDDEN, DO_LongSound_writeToFlacFile);
+./fon/praat_Sound_init.cpp:2382:	praat_addAction1 (classLongSound, 0, L"Save left channel as WAV file...", 0, 0, DO_LongSound_writeLeftChannelToWavFile);
+./fon/praat_Sound_init.cpp:2383:	praat_addAction1 (classLongSound, 0, L"Write left channel to WAV file...", 0, praat_HIDDEN, DO_LongSound_writeLeftChannelToWavFile);
+./fon/praat_Sound_init.cpp:2384:	praat_addAction1 (classLongSound, 0, L"Save left channel as AIFF file...", 0, 0, DO_LongSound_writeLeftChannelToAiffFile);
+./fon/praat_Sound_init.cpp:2385:	praat_addAction1 (classLongSound, 0, L"Write left channel to AIFF file...", 0, praat_HIDDEN, DO_LongSound_writeLeftChannelToAiffFile);
+./fon/praat_Sound_init.cpp:2386:	praat_addAction1 (classLongSound, 0, L"Save left channel as AIFC file...", 0, 0, DO_LongSound_writeLeftChannelToAifcFile);
+./fon/praat_Sound_init.cpp:2387:	praat_addAction1 (classLongSound, 0, L"Write left channel to AIFC file...", 0, praat_HIDDEN, DO_LongSound_writeLeftChannelToAifcFile);
+./fon/praat_Sound_init.cpp:2388:	praat_addAction1 (classLongSound, 0, L"Save left channel as Next/Sun file...", 0, 0, DO_LongSound_writeLeftChannelToNextSunFile);
+./fon/praat_Sound_init.cpp:2389:	praat_addAction1 (classLongSound, 0, L"Write left channel to Next/Sun file...", 0, praat_HIDDEN, DO_LongSound_writeLeftChannelToNextSunFile);
+./fon/praat_Sound_init.cpp:2390:	praat_addAction1 (classLongSound, 0, L"Save left channel as NIST file...", 0, 0, DO_LongSound_writeLeftChannelToNistFile);
+./fon/praat_Sound_init.cpp:2391:	praat_addAction1 (classLongSound, 0, L"Write left channel to NIST file...", 0, praat_HIDDEN, DO_LongSound_writeLeftChannelToNistFile);
+./fon/praat_Sound_init.cpp:2392:	praat_addAction1 (classLongSound, 0, L"Save left channel as FLAC file...", 0, 0, DO_LongSound_writeLeftChannelToFlacFile);
+./fon/praat_Sound_init.cpp:2393:	praat_addAction1 (classLongSound, 0, L"Write left channel to FLAC file...", 0, praat_HIDDEN, DO_LongSound_writeLeftChannelToFlacFile);
+./fon/praat_Sound_init.cpp:2394:	praat_addAction1 (classLongSound, 0, L"Save right channel as WAV file...", 0, 0, DO_LongSound_writeRightChannelToWavFile);
+./fon/praat_Sound_init.cpp:2395:	praat_addAction1 (classLongSound, 0, L"Write right channel to WAV file...", 0, praat_HIDDEN, DO_LongSound_writeRightChannelToWavFile);
+./fon/praat_Sound_init.cpp:2396:	praat_addAction1 (classLongSound, 0, L"Save right channel as AIFF file...", 0, 0, DO_LongSound_writeRightChannelToAiffFile);
+./fon/praat_Sound_init.cpp:2397:	praat_addAction1 (classLongSound, 0, L"Write right channel to AIFF file...", 0, praat_HIDDEN, DO_LongSound_writeRightChannelToAiffFile);
+./fon/praat_Sound_init.cpp:2398:	praat_addAction1 (classLongSound, 0, L"Save right channel as AIFC file...", 0, 0, DO_LongSound_writeRightChannelToAifcFile);
+./fon/praat_Sound_init.cpp:2399:	praat_addAction1 (classLongSound, 0, L"Write right channel to AIFC file...", 0, praat_HIDDEN, DO_LongSound_writeRightChannelToAifcFile);
+./fon/praat_Sound_init.cpp:2400:	praat_addAction1 (classLongSound, 0, L"Save right channel as Next/Sun file...", 0, 0, DO_LongSound_writeRightChannelToNextSunFile);
+./fon/praat_Sound_init.cpp:2401:	praat_addAction1 (classLongSound, 0, L"Write right channel to Next/Sun file...", 0, praat_HIDDEN, DO_LongSound_writeRightChannelToNextSunFile);
+./fon/praat_Sound_init.cpp:2402:	praat_addAction1 (classLongSound, 0, L"Save right channel as NIST file...", 0, 0, DO_LongSound_writeRightChannelToNistFile);
+./fon/praat_Sound_init.cpp:2403:	praat_addAction1 (classLongSound, 0, L"Write right channel to NIST file...", 0, praat_HIDDEN, DO_LongSound_writeRightChannelToNistFile);
+./fon/praat_Sound_init.cpp:2404:	praat_addAction1 (classLongSound, 0, L"Save right channel as FLAC file...", 0, 0, DO_LongSound_writeRightChannelToFlacFile);
+./fon/praat_Sound_init.cpp:2405:	praat_addAction1 (classLongSound, 0, L"Write right channel to FLAC file...", 0, praat_HIDDEN, DO_LongSound_writeRightChannelToFlacFile);
+./fon/praat_Sound_init.cpp:2406:	praat_addAction1 (classLongSound, 0, L"Save part as audio file...", 0, 0, DO_LongSound_writePartToAudioFile);
+./fon/praat_Sound_init.cpp:2407:	praat_addAction1 (classLongSound, 0, L"Write part to audio file...", 0, praat_HIDDEN, DO_LongSound_writePartToAudioFile);
+./fon/praat_Sound_init.cpp-2408-
+./fon/praat_Sound_init.cpp-2409-	praat_addAction1 (classSound, 0, L"Save as WAV file...", 0, 0, DO_Sound_writeToWavFile);
+--
+./fon/praat_Sound_init.cpp:2593:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Save as WAV file...", 0, 0, DO_LongSound_Sound_writeToWavFile);
+./fon/praat_Sound_init.cpp:2594:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Write to WAV file...", 0, praat_HIDDEN, DO_LongSound_Sound_writeToWavFile);
+./fon/praat_Sound_init.cpp:2595:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Save as AIFF file...", 0, 0, DO_LongSound_Sound_writeToAiffFile);
+./fon/praat_Sound_init.cpp:2596:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Write to AIFF file...", 0, praat_HIDDEN, DO_LongSound_Sound_writeToAiffFile);
+./fon/praat_Sound_init.cpp:2597:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Save as AIFC file...", 0, 0, DO_LongSound_Sound_writeToAifcFile);
+./fon/praat_Sound_init.cpp:2598:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Write to AIFC file...", 0, praat_HIDDEN, DO_LongSound_Sound_writeToAifcFile);
+./fon/praat_Sound_init.cpp:2599:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Save as NeXT/Sun file...", 0, 0, DO_LongSound_Sound_writeToNextSunFile);
+./fon/praat_Sound_init.cpp:2600:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Write to NeXT/Sun file...", 0, praat_HIDDEN, DO_LongSound_Sound_writeToNextSunFile);
+./fon/praat_Sound_init.cpp:2601:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Save as NIST file...", 0, 0, DO_LongSound_Sound_writeToNistFile);
+./fon/praat_Sound_init.cpp:2602:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Write to NIST file...", 0, praat_HIDDEN, DO_LongSound_Sound_writeToNistFile);
+./fon/praat_Sound_init.cpp:2603:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Save as FLAC file...", 0, 0, DO_LongSound_Sound_writeToFlacFile);
+./fon/praat_Sound_init.cpp:2604:	praat_addAction2 (classLongSound, 0, classSound, 0, L"Write to FLAC file...", 0, praat_HIDDEN, DO_LongSound_Sound_writeToFlacFile);
+./fon/praat_Sound_init.cpp-2605-}
+./fon/praat_Sound_init.cpp-2606-
+--
+./fon/praat_Fon.cpp:36:#include "LongSound.h"
+./fon/praat_Fon.cpp-37-#include "Ltas_to_SpectrumTier.h"
+./fon/praat_Fon.cpp-38-#include "ManipulationEditor.h"
+--
+./fon/praat_Fon.cpp:6354:		classIntervalTier, classTextGrid, classLongSound, classWordList, classSpellingChecker,
+./fon/praat_Fon.cpp-6355-		classMovie, classCorpus, classPhoto,
+./fon/praat_Fon.cpp-6356-		NULL);
+--
+./fon/manual_glossary.cpp:198:	"Exceptions are the LongSound objects in the Praat program and the file-based dictionaries "
+./fon/manual_glossary.cpp-199-	"in the ALS program.")
+./fon/manual_glossary.cpp-200-NORMAL (L"You can create an object by choosing a command from the @@New menu@ "
+--
+./fon/TextGridEditor.h:70:	Sampled sound,   // either a Sound or a LongSound, or null
+./fon/TextGridEditor.h-71-	bool ownSound,
+./fon/TextGridEditor.h-72-	SpellingChecker spellingChecker,
+--
+./fon/TextGridEditor.cpp:55:	bool showAnalysis = my v_hasAnalysis () && (my p_spectrogram_show || my p_pitch_show || my p_intensity_show || my p_formant_show) && (my d_longSound.data || my d_sound.data);
+./fon/TextGridEditor.cpp-56-	int numberOfVisibleChannels = my d_sound.data ? (my d_sound.data -> ny > 8 ? 8 : my d_sound.data -> ny) :
+./fon/TextGridEditor.cpp:57:		my d_longSound.data ? (my d_longSound.data -> numberOfChannels > 8 ? 8 : my d_longSound.data -> numberOfChannels) : 1;
+./fon/TextGridEditor.cpp:58:	return my d_sound.data || my d_longSound.data ? numberOfTiers / (2.0 * numberOfVisibleChannels + numberOfTiers * (showAnalysis ? 1.8 : 1.3)) : 1.0;
+./fon/TextGridEditor.cpp-59-}
+./fon/TextGridEditor.cpp-60-
+--
+./fon/TextGridEditor.cpp:242:		Sound publish = my d_longSound.data ?
+./fon/TextGridEditor.cpp:243:			LongSound_extractPart (my d_longSound.data, my d_startWindow, my d_endWindow, true) :
+./fon/TextGridEditor.cpp-244-			Sound_extractPart (my d_sound.data, my d_startWindow, my d_endWindow, kSound_windowShape_RECTANGULAR, 1.0, true);
+./fon/TextGridEditor.cpp-245-		TextGrid_Sound_draw ((TextGrid) my data, publish, my pictureGraphics, my d_startWindow, my d_endWindow, true, my p_useTextStyles, my pref_picture_garnish ());
+--
+./fon/TextGridEditor.cpp:255:	if (d_sound.data || d_longSound.data)
+./fon/TextGridEditor.cpp-256-		EditorMenu_addCommand (menu, L"Draw visible sound and TextGrid...", 0, menu_cb_DrawVisibleSoundAndTextGrid);
+./fon/TextGridEditor.cpp-257-}
+--
+./fon/TextGridEditor.cpp:693:		if (my d_longSound.data) anySound = my d_longSound.data;
+./fon/TextGridEditor.cpp-694-		Editor_save (me, L"Align interval");
+./fon/TextGridEditor.cpp-695-		TextGrid_anySound_alignInterval (grid, anySound, my selectedTier, intervalNumber,
+--
+./fon/TextGridEditor.cpp:1231:	if (d_sound.data || d_longSound.data) {
+./fon/TextGridEditor.cpp-1232-		EditorMenu_addCommand (menu, L"Align interval", 'D', menu_cb_AlignInterval);
+./fon/TextGridEditor.cpp-1233-		EditorMenu_addCommand (menu, L"Alignment settings...", 0, menu_cb_AlignmentSettings);
+--
+./fon/TextGridEditor.cpp:1285:	if (d_sound.data || d_longSound.data) {
+./fon/TextGridEditor.cpp-1286-		if (v_hasAnalysis ()) {
+./fon/TextGridEditor.cpp-1287-			v_createMenus_analysis ();   // insert some of the ancestor's menus *after* the TextGrid menus
+--
+./fon/TextGridEditor.cpp:1362:	if (d_longSound.data) {
+./fon/TextGridEditor.cpp-1363-		try {
+./fon/TextGridEditor.cpp:1364:			LongSound_haveWindow (d_longSound.data, d_startWindow, d_endWindow);
+./fon/TextGridEditor.cpp-1365-		} catch (MelderError) {
+./fon/TextGridEditor.cpp-1366-			Melder_clearError ();
+--
+./fon/TextGridEditor.cpp:1556:	bool showAnalysis = v_hasAnalysis () && (p_spectrogram_show || p_pitch_show || p_intensity_show || p_formant_show) && (d_longSound.data || d_sound.data);
+./fon/TextGridEditor.cpp-1557-	double soundY = _TextGridEditor_computeSoundY (this), soundY2 = showAnalysis ? 0.5 * (1.0 + soundY) : soundY;
+./fon/TextGridEditor.cpp-1558-
+--
+./fon/TextGridEditor.cpp:1562:	if (d_longSound.data || d_sound.data) {
+./fon/TextGridEditor.cpp-1563-		vp1 = Graphics_insetViewport (d_graphics, 0.0, 1.0, soundY2, 1.0);
+./fon/TextGridEditor.cpp-1564-		Graphics_setColour (d_graphics, Graphics_WHITE);
+--
+./fon/TextGridEditor.cpp:1575:	if (d_longSound.data || d_sound.data) vp1 = Graphics_insetViewport (d_graphics, 0.0, 1.0, 0.0, soundY);
+./fon/TextGridEditor.cpp-1576-	Graphics_setColour (d_graphics, Graphics_WHITE);
+./fon/TextGridEditor.cpp-1577-	Graphics_setWindow (d_graphics, 0, 1, 0, 1);
+--
+./fon/TextGridEditor.cpp:1654:	if (d_longSound.data || d_sound.data) Graphics_resetViewport (d_graphics, vp1);
+./fon/TextGridEditor.cpp-1655-	Graphics_flushWs (d_graphics);
+./fon/TextGridEditor.cpp-1656-
+--
+./fon/TextGridEditor.cpp:1672:	if (d_longSound.data || d_sound.data) {
+./fon/TextGridEditor.cpp-1673-		Graphics_line (d_graphics, d_startWindow, soundY, d_endWindow, soundY);
+./fon/TextGridEditor.cpp-1674-		if (showAnalysis) {
+--
+./fon/TextGridEditor.cpp:2072:	if (our d_longSound.data) {
+./fon/TextGridEditor.cpp:2073:		LongSound_playPart (our d_longSound.data, tmin, tmax, theFunctionEditor_playCallback, this);
+./fon/TextGridEditor.cpp-2074-	} else if (our d_sound.data) {
+./fon/TextGridEditor.cpp-2075-		Sound_playPart (our d_sound.data, tmin, tmax, theFunctionEditor_playCallback, this);
+--
+./fon/TextGridEditor.cpp:2161:	if (our v_hasAnalysis () && our p_spectrogram_show && (our d_longSound.data || our d_sound.data)) {
+./fon/TextGridEditor.cpp-2162-		double soundY = _TextGridEditor_computeSoundY (this), soundY2 = 0.5 * (1.0 + soundY);
+./fon/TextGridEditor.cpp-2163-		//Graphics_highlight (our d_graphics, left, right, bottom, soundY * top + (1 - soundY) * bottom);
+--
+./fon/TextGridEditor.cpp:2171:	if (our v_hasAnalysis () && our p_spectrogram_show && (our d_longSound.data || our d_sound.data)) {
+./fon/TextGridEditor.cpp-2172-		double soundY = _TextGridEditor_computeSoundY (this), soundY2 = 0.5 * (1.0 + soundY);
+./fon/TextGridEditor.cpp-2173-		//Graphics_unhighlight (our d_graphics, left, right, bottom, soundY * top + (1 - soundY) * bottom);
+--
+./fon/SoundEditor.h:46:	Sampled data   // either a Sound or a LongSound
+./fon/SoundEditor.h-47-);
+./fon/SoundEditor.h-48-
+--
+./fon/LongSound.cpp:1:/* LongSound.cpp
+./fon/LongSound.cpp-2- *
+./fon/LongSound.cpp-3- * Copyright (C) 1992-2012,2014 Paul Boersma, 2007 Erez Volk (for FLAC and MP3)
+--
+./fon/LongSound.cpp:37: * fb 2010/02/25 corrected a bug that could cause LongSound_playPart to crash with an assertion on error
+./fon/LongSound.cpp-38- * pb 2010/11/07 no longer do an assertion on thy resampledBuffer
+./fon/LongSound.cpp-39- * pb 2010/12/20 support for more than 2 channels
+--
+./fon/LongSound.cpp:45:#include "LongSound.h"
+./fon/LongSound.cpp-46-#include "Preferences.h"
+./fon/LongSound.cpp-47-#include "flac_FLAC_stream_decoder.h"
+--
+./fon/LongSound.cpp:50:Thing_implement (LongSound, Sampled, 0);
+./fon/LongSound.cpp-51-
+./fon/LongSound.cpp-52-#define MARGIN  0.01
+--
+./fon/LongSound.cpp:57:void LongSound_preferences (void) {
+./fon/LongSound.cpp:58:	Preferences_addLong (L"LongSound.bufferLength", & prefs_bufferLength, 60);   // seconds
+./fon/LongSound.cpp-59-}
+./fon/LongSound.cpp-60-
+./fon/LongSound.cpp:61:long LongSound_getBufferSizePref_seconds (void) { return prefs_bufferLength; }
+./fon/LongSound.cpp:62:void LongSound_setBufferSizePref_seconds (long size) { prefs_bufferLength = size < 10 ? 10 : size > 10000 ? 10000: size; }
+./fon/LongSound.cpp-63-
+./fon/LongSound.cpp:64:void structLongSound :: v_destroy () {
+./fon/LongSound.cpp-65-	/*
+./fon/LongSound.cpp-66-	 * The play callback may contain a pointer to my buffer.
+--
+./fon/LongSound.cpp:78:	LongSound_Parent :: v_destroy ();
+./fon/LongSound.cpp-79-}
+./fon/LongSound.cpp-80-
+./fon/LongSound.cpp:81:void structLongSound :: v_info () {
+./fon/LongSound.cpp-82-	static const wchar_t *encodingStrings [1+20] = { L"none",
+./fon/LongSound.cpp-83-		L"linear 8 bit signed", L"linear 8 bit unsigned",
+--
+./fon/LongSound.cpp:101:static void _LongSound_FLAC_convertFloats (LongSound me, const FLAC__int32 * const samples[], long bitsPerSample, long numberOfSamples) {
+./fon/LongSound.cpp-102-	double multiplier;
+./fon/LongSound.cpp-103-	switch (bitsPerSample) {
+--
+./fon/LongSound.cpp:120:static void _LongSound_FLAC_convertShorts (LongSound me, const FLAC__int32 * const samples[], long bitsPerSample, long numberOfSamples) {
+./fon/LongSound.cpp-121-	for (long channel = 0; channel < my numberOfChannels; ++ channel) {
+./fon/LongSound.cpp-122-		short *output = my compressedShorts + channel;
+--
+./fon/LongSound.cpp:139:static FLAC__StreamDecoderWriteStatus _LongSound_FLAC_write (const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], I) {
+./fon/LongSound.cpp:140:	iam (LongSound);
+./fon/LongSound.cpp-141-	const FLAC__FrameHeader *header = & frame -> header;
+./fon/LongSound.cpp-142-	long numberOfSamples = header -> blocksize;
+--
+./fon/LongSound.cpp:150:		_LongSound_FLAC_convertFloats (me, buffer, bitsPerSample, numberOfSamples);
+./fon/LongSound.cpp-151-	else
+./fon/LongSound.cpp:152:		_LongSound_FLAC_convertShorts (me, buffer, bitsPerSample, numberOfSamples);
+./fon/LongSound.cpp-153-	my compressedSamplesLeft -= numberOfSamples;
+./fon/LongSound.cpp-154-	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
+--
+./fon/LongSound.cpp:157:static void _LongSound_FLAC_error (const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, I) {
+./fon/LongSound.cpp:158:	iam (LongSound);
+./fon/LongSound.cpp-159-	(void) me;
+./fon/LongSound.cpp-160-	(void) decoder;
+--
+./fon/LongSound.cpp:164:static void _LongSound_MP3_convertFloats (LongSound me, const MP3F_SAMPLE *channels[MP3F_MAX_CHANNELS], long numberOfSamples) {
+./fon/LongSound.cpp-165-	for (long i = 0; i < 2; ++i) {
+./fon/LongSound.cpp-166-		const MP3F_SAMPLE *input = channels [i];
+--
+./fon/LongSound.cpp:175:static void _LongSound_MP3_convertShorts (LongSound me, const MP3F_SAMPLE *channels[MP3F_MAX_CHANNELS], long numberOfSamples) {
+./fon/LongSound.cpp-176-	for (long i = 0; i < my numberOfChannels; ++ i) {
+./fon/LongSound.cpp-177-		const MP3F_SAMPLE *input = channels [i];
+--
+./fon/LongSound.cpp:187:static void _LongSound_MP3_convert (const MP3F_SAMPLE *channels[MP3F_MAX_CHANNELS], long numberOfSamples, I) {
+./fon/LongSound.cpp:188:	iam (LongSound);
+./fon/LongSound.cpp-189-	if (numberOfSamples > my compressedSamplesLeft)
+./fon/LongSound.cpp-190-		numberOfSamples = my compressedSamplesLeft;
+--
+./fon/LongSound.cpp:194:		_LongSound_MP3_convertFloats (me, channels, numberOfSamples);
+./fon/LongSound.cpp-195-	else
+./fon/LongSound.cpp:196:		_LongSound_MP3_convertShorts (me, channels, numberOfSamples);
+./fon/LongSound.cpp-197-	my compressedSamplesLeft -= numberOfSamples;
+./fon/LongSound.cpp-198-}
+--
+./fon/LongSound.cpp:200:static void LongSound_init (LongSound me, MelderFile file) {
+./fon/LongSound.cpp-201-	MelderFile_copy (file, & my file);
+./fon/LongSound.cpp-202-	MelderFile_open (file);   // BUG: should be auto, but that requires an implemented .transfer()
+--
+./fon/LongSound.cpp:206:		Melder_throw ("File not recognized (LongSound only supports AIFF, AIFC, WAV, NeXT/Sun, NIST and FLAC).");
+./fon/LongSound.cpp-207-	if (my encoding == Melder_SHORTEN || my encoding == Melder_POLYPHONE)
+./fon/LongSound.cpp:208:		Melder_throw ("LongSound does not support sound files compressed with \"shorten\".");
+./fon/LongSound.cpp-209-	my xmin = 0.0;
+./fon/LongSound.cpp-210-	my dx = 1 / my sampleRate;
+--
+./fon/LongSound.cpp:232:		FLAC__stream_decoder_init_FILE (my flacDecoder, my f, _LongSound_FLAC_write, NULL, _LongSound_FLAC_error, me);
+./fon/LongSound.cpp-233-	}
+./fon/LongSound.cpp-234-	my mp3f = NULL;
+--
+./fon/LongSound.cpp:238:		mp3f_set_callback (my mp3f, _LongSound_MP3_convert, me);
+./fon/LongSound.cpp-239-		if (! mp3f_analyze (my mp3f))
+./fon/LongSound.cpp-240-			Melder_throw ("Unable to analyze MP3 file.");
+--
+./fon/LongSound.cpp:246:void structLongSound :: v_copy (thou) {
+./fon/LongSound.cpp:247:	thouart (LongSound);
+./fon/LongSound.cpp-248-	thy f = NULL;
+./fon/LongSound.cpp-249-	thy buffer = NULL;
+./fon/LongSound.cpp:250:	LongSound_init (thee, & file);
+./fon/LongSound.cpp-251-}
+./fon/LongSound.cpp-252-
+./fon/LongSound.cpp:253:LongSound LongSound_open (MelderFile file) {
+./fon/LongSound.cpp-254-	try {
+./fon/LongSound.cpp:255:		autoLongSound me = Thing_new (LongSound);
+./fon/LongSound.cpp:256:		LongSound_init (me.peek(), file);
+./fon/LongSound.cpp-257-		return me.transfer();
+./fon/LongSound.cpp-258-	} catch (MelderError) {
+./fon/LongSound.cpp:259:		Melder_throw ("LongSound not created.");
+./fon/LongSound.cpp-260-	}
+./fon/LongSound.cpp-261-}
+--
+./fon/LongSound.cpp:263:static void _LongSound_FLAC_process (LongSound me, long firstSample, long numberOfSamples) {
+./fon/LongSound.cpp-264-	my compressedSamplesLeft = numberOfSamples - 1;
+./fon/LongSound.cpp-265-	if (! FLAC__stream_decoder_seek_absolute (my flacDecoder, firstSample))
+--
+./fon/LongSound.cpp:275:static void _LongSound_FILE_seekSample (LongSound me, long firstSample) {
+./fon/LongSound.cpp-276-	if (fseek (my f, my startOfData + (firstSample - 1) * my numberOfChannels * my numberOfBytesPerSamplePoint, SEEK_SET))
+./fon/LongSound.cpp-277-		Melder_throw ("Cannot seek in file ", & my file, ".");
+--
+./fon/LongSound.cpp:280:static void _LongSound_FLAC_readAudioToShort (LongSound me, short *buffer, long firstSample, long numberOfSamples) {
+./fon/LongSound.cpp-281-	my compressedMode = COMPRESSED_MODE_READ_SHORT;
+./fon/LongSound.cpp-282-	my compressedShorts = buffer + 1;
+./fon/LongSound.cpp:283:	_LongSound_FLAC_process (me, firstSample, numberOfSamples);
+./fon/LongSound.cpp-284-}
+./fon/LongSound.cpp-285-
+./fon/LongSound.cpp:286:static void _LongSound_MP3_process (LongSound me, long firstSample, long numberOfSamples) {
+./fon/LongSound.cpp-287-	if (! mp3f_seek (my mp3f, firstSample))
+./fon/LongSound.cpp-288-		Melder_throw ("Cannot seek in MP3 file ", & my file, ".");
+--
+./fon/LongSound.cpp:294:static void _LongSound_MP3_readAudioToShort (LongSound me, short *buffer, long firstSample, long numberOfSamples) {
+./fon/LongSound.cpp-295-	my compressedMode = COMPRESSED_MODE_READ_SHORT;
+./fon/LongSound.cpp-296-	my compressedShorts = buffer + 1;
+./fon/LongSound.cpp:297:	_LongSound_MP3_process (me, firstSample, numberOfSamples - 1);
+./fon/LongSound.cpp-298-}
+./fon/LongSound.cpp-299-
+./fon/LongSound.cpp:300:void LongSound_readAudioToFloat (LongSound me, double **buffer, long firstSample, long numberOfSamples) {
+./fon/LongSound.cpp-301-	if (my encoding == Melder_FLAC_COMPRESSION_16) {
+./fon/LongSound.cpp-302-		my compressedMode = COMPRESSED_MODE_READ_FLOAT;
+--
+./fon/LongSound.cpp:306:		_LongSound_FLAC_process (me, firstSample, numberOfSamples);
+./fon/LongSound.cpp-307-	} else if (my encoding == Melder_MPEG_COMPRESSION_16) {
+./fon/LongSound.cpp-308-		my compressedMode = COMPRESSED_MODE_READ_FLOAT;
+--
+./fon/LongSound.cpp:312:		_LongSound_MP3_process (me, firstSample, numberOfSamples);
+./fon/LongSound.cpp-313-	} else {
+./fon/LongSound.cpp:314:		_LongSound_FILE_seekSample (me, firstSample);
+./fon/LongSound.cpp-315-		Melder_readAudioToFloat (my f, my numberOfChannels, my encoding, buffer, numberOfSamples);
+./fon/LongSound.cpp-316-	}
+--
+./fon/LongSound.cpp:319:void LongSound_readAudioToShort (LongSound me, short *buffer, long firstSample, long numberOfSamples) {
+./fon/LongSound.cpp-320-	if (my encoding == Melder_FLAC_COMPRESSION_16) {
+./fon/LongSound.cpp:321:		_LongSound_FLAC_readAudioToShort (me, buffer, firstSample, numberOfSamples);
+./fon/LongSound.cpp-322-	} else if (my encoding == Melder_MPEG_COMPRESSION_16) {
+./fon/LongSound.cpp:323:		_LongSound_MP3_readAudioToShort (me, buffer, firstSample, numberOfSamples);
+./fon/LongSound.cpp-324-	} else {
+./fon/LongSound.cpp:325:		_LongSound_FILE_seekSample (me, firstSample);
+./fon/LongSound.cpp-326-		Melder_readAudioToShort (my f, my numberOfChannels, my encoding, buffer, numberOfSamples);
+./fon/LongSound.cpp-327-	}
+--
+./fon/LongSound.cpp:330:Sound LongSound_extractPart (LongSound me, double tmin, double tmax, int preserveTimes) {
+./fon/LongSound.cpp-331-	try {
+./fon/LongSound.cpp-332-		if (tmax <= tmin) { tmin = my xmin; tmax = my xmax; }
+--
+./fon/LongSound.cpp:340:		LongSound_readAudioToFloat (me, thy z, imin, n);
+./fon/LongSound.cpp-341-		return thee.transfer();
+./fon/LongSound.cpp-342-	} catch (MelderError) {
+--
+./fon/LongSound.cpp:347:static void _LongSound_readSamples (LongSound me, short *buffer, long imin, long imax) {
+./fon/LongSound.cpp:348:	LongSound_readAudioToShort (me, buffer, imin, imax - imin + 1);
+./fon/LongSound.cpp-349-}
+./fon/LongSound.cpp-350-
+./fon/LongSound.cpp:351:static void writePartToOpenFile (LongSound me, int audioFileType, long imin, long n, MelderFile file, int numberOfChannels_override, int numberOfBitsPerSamplePoint) {
+./fon/LongSound.cpp-352-	long ibuffer, offset, numberOfBuffers, numberOfSamplesInLastBuffer;
+./fon/LongSound.cpp-353-	offset = imin;
+--
+./fon/LongSound.cpp:358:		LongSound_readAudioToShort (me, my buffer, offset, numberOfSamplesToCopy);
+./fon/LongSound.cpp-359-		offset += numberOfSamplesToCopy;
+./fon/LongSound.cpp-360-		MelderFile_writeShortToAudio (file, numberOfChannels_override ? numberOfChannels_override : my numberOfChannels, Melder_defaultAudioFileEncoding (audioFileType, numberOfBitsPerSamplePoint), my buffer, numberOfSamplesToCopy);
+--
+./fon/LongSound.cpp:369:void LongSound_writePartToAudioFile (LongSound me, int audioFileType, double tmin, double tmax, MelderFile file) {
+./fon/LongSound.cpp-370-	try {
+./fon/LongSound.cpp-371-		if (tmax <= tmin) { tmin = my xmin; tmax = my xmax; }
+--
+./fon/LongSound.cpp:387:void LongSound_writeChannelToAudioFile (LongSound me, int audioFileType, int channel, MelderFile file) {
+./fon/LongSound.cpp-388-	try {
+./fon/LongSound.cpp-389-		if (my numberOfChannels != 2)
+--
+./fon/LongSound.cpp:403:static void _LongSound_haveSamples (LongSound me, long imin, long imax) {
+./fon/LongSound.cpp-404-	long n = imax - imin + 1;
+./fon/LongSound.cpp-405-	Melder_assert (n <= my nmax);
+--
+./fon/LongSound.cpp:414:		_LongSound_readSamples (me, my buffer + (my imax - my imin + 1) * my numberOfChannels, my imax + 1, imax);
+./fon/LongSound.cpp-415-		my imax = imax;
+./fon/LongSound.cpp-416-		return;
+--
+./fon/LongSound.cpp:436:		_LongSound_readSamples (me, my buffer, imin, imax);
+./fon/LongSound.cpp-437-	} else if (imin < my imin) {
+./fon/LongSound.cpp-438-		/*
+--
+./fon/LongSound.cpp:452:			_LongSound_readSamples (me, my buffer, imin, my imin - 1);
+./fon/LongSound.cpp-453-		} else {
+./fon/LongSound.cpp-454-			/*
+--
+./fon/LongSound.cpp:464:			_LongSound_readSamples (me, my buffer, imin, my imin - 1);
+./fon/LongSound.cpp:465:			_LongSound_readSamples (me, my buffer + (my imax - imin + 1) * my numberOfChannels, my imax + 1, imax);
+./fon/LongSound.cpp-466-		}
+./fon/LongSound.cpp-467-	} else {
+--
+./fon/LongSound.cpp:478:		_LongSound_readSamples (me, my buffer + (my imax - imin + 1) * my numberOfChannels, my imax + 1, imax);
+./fon/LongSound.cpp-479-	}
+./fon/LongSound.cpp-480-	my imin = imin, my imax = imax;
+--
+./fon/LongSound.cpp:483:bool LongSound_haveWindow (LongSound me, double tmin, double tmax) {
+./fon/LongSound.cpp-484-	long imin, imax;
+./fon/LongSound.cpp-485-	long n = Sampled_getWindowSamples (me, tmin, tmax, & imin, & imax);
+--
+./fon/LongSound.cpp:487:	_LongSound_haveSamples (me, imin, imax);
+./fon/LongSound.cpp-488-	return true;
+./fon/LongSound.cpp-489-}
+--
+./fon/LongSound.cpp:491:void LongSound_getWindowExtrema (LongSound me, double tmin, double tmax, int channel, double *minimum, double *maximum) {
+./fon/LongSound.cpp-492-	long imin, imax;
+./fon/LongSound.cpp-493-	long i, minimum_int = 32767, maximum_int = -32768;
+--
+./fon/LongSound.cpp:498:		LongSound_haveWindow (me, tmin, tmax);
+./fon/LongSound.cpp-499-	} catch (MelderError) {
+./fon/LongSound.cpp-500-		Melder_clearError ();
+--
+./fon/LongSound.cpp:512:static struct LongSoundPlay {
+./fon/LongSound.cpp-513-	long numberOfSamples, i1, i2, silenceBefore, silenceAfter;
+./fon/LongSound.cpp-514-	double tmin, tmax, dt, t1;
+--
+./fon/LongSound.cpp:518:} thePlayingLongSound;
+./fon/LongSound.cpp-519-
+./fon/LongSound.cpp-520-static bool melderPlayCallback (void *closure, long samplesPlayed) {
+./fon/LongSound.cpp:521:	struct LongSoundPlay *me = (struct LongSoundPlay *) closure;
+./fon/LongSound.cpp-522-	int phase = 2;
+./fon/LongSound.cpp-523-	double t = samplesPlayed <= my silenceBefore ? my tmin :
+--
+./fon/LongSound.cpp:535:void LongSound_playPart (LongSound me, double tmin, double tmax,
+./fon/LongSound.cpp-536-	int (*callback) (void *closure, int phase, double tmin, double tmax, double t), void *closure)
+./fon/LongSound.cpp-537-{
+./fon/LongSound.cpp:538:	struct LongSoundPlay *thee = (struct LongSoundPlay *) & thePlayingLongSound;
+./fon/LongSound.cpp-539-	MelderAudio_stopPlaying (MelderAudio_IMPLICIT);
+./fon/LongSound.cpp-540-	Melder_free (thy resampledBuffer);   // just in case, and after playing has stopped
+--
+./fon/LongSound.cpp:542:		int fits = LongSound_haveWindow (me, tmin, tmax);
+./fon/LongSound.cpp-543-		long bestSampleRate = MelderAudio_getOutputBestSampleRate (my sampleRate), n, i1, i2;
+./fon/LongSound.cpp-544-		if (! fits)
+--
+./fon/LongSound.cpp:629:void LongSound_concatenate (Collection me, MelderFile file, int audioFileType, int numberOfBitsPerSamplePoint) {
+./fon/LongSound.cpp-630-	try {
+./fon/LongSound.cpp-631-		long sampleRate, n;   /* Integer sampling frequencies only, because of possible rounding errors. */
+--
+./fon/LongSound.cpp:633:		if (my size < 1) Melder_throw ("No Sound or LongSound objects to concatenate.");
+./fon/LongSound.cpp-634-		/*
+./fon/LongSound.cpp-635-		 * The sampling frequencies and numbers of channels must be equal for all (long)sounds.
+--
+./fon/LongSound.cpp:644:			LongSound longSound = (LongSound) data;
+./fon/LongSound.cpp:645:			sampleRate = longSound -> sampleRate;
+./fon/LongSound.cpp:646:			numberOfChannels = longSound -> numberOfChannels;
+./fon/LongSound.cpp:647:			n = longSound -> nx;
+./fon/LongSound.cpp-648-		}
+./fon/LongSound.cpp-649-		/*
+--
+./fon/LongSound.cpp:661:				LongSound longSound = (LongSound) data;
+./fon/LongSound.cpp:662:				sampleRatesMatch = longSound -> sampleRate == sampleRate;
+./fon/LongSound.cpp:663:				numbersOfChannelsMatch = longSound -> numberOfChannels == numberOfChannels;
+./fon/LongSound.cpp:664:				n += longSound -> nx;
+./fon/LongSound.cpp-665-			}
+./fon/LongSound.cpp-666-			if (! sampleRatesMatch)
+--
+./fon/LongSound.cpp:687:				LongSound longSound = (LongSound) data;
+./fon/LongSound.cpp:688:				writePartToOpenFile (longSound, audioFileType, 1, longSound -> nx, file, 0, numberOfBitsPerSamplePoint);
+./fon/LongSound.cpp-689-			}
+./fon/LongSound.cpp-690-		}
+--
+./fon/LongSound.cpp:698:/* End of file LongSound.cpp */
+--
+./fon/FunctionEditor.cpp:1450:	 * This will occur at unpredictable times, perhaps when the LongSound is updated.
+./fon/FunctionEditor.cpp-1451-	 * So we had better make no assumptions about the current viewport.
+./fon/FunctionEditor.cpp-1452-	 */
+--
+./fon/LongSound.h:1:#ifndef _LongSound_h_
+./fon/LongSound.h:2:#define _LongSound_h_
+./fon/LongSound.h:3:/* LongSound.h
+./fon/LongSound.h-4- *
+./fon/LongSound.h-5- * Copyright (C) 1992-2012 Paul Boersma, 2007 Erez Volk (for FLAC, MP3)
+--
+./fon/LongSound.h:32:Thing_define (LongSound, Sampled) {
+./fon/LongSound.h-33-	// new data:
+./fon/LongSound.h-34-	public:
+--
+./fon/LongSound.h:57:LongSound LongSound_open (MelderFile fs);
+./fon/LongSound.h-58-
+./fon/LongSound.h:59:Sound LongSound_extractPart (LongSound me, double tmin, double tmax, int preserveTimes);
+./fon/LongSound.h-60-
+./fon/LongSound.h:61:bool LongSound_haveWindow (LongSound me, double tmin, double tmax);
+./fon/LongSound.h-62-/*
+./fon/LongSound.h-63- * Returns 0 if error or if window exceeds buffer, otherwise 1;
+--
+./fon/LongSound.h:66:void LongSound_getWindowExtrema (LongSound me, double tmin, double tmax, int channel, double *minimum, double *maximum);
+./fon/LongSound.h-67-
+./fon/LongSound.h:68:void LongSound_playPart (LongSound me, double tmin, double tmax,
+./fon/LongSound.h-69-	int (*callback) (void *closure, int phase, double tmin, double tmax, double t), void *closure);
+./fon/LongSound.h-70-
+./fon/LongSound.h:71:void LongSound_writePartToAudioFile (LongSound me, int audioFileType, double tmin, double tmax, MelderFile file);
+./fon/LongSound.h:72:void LongSound_writeChannelToAudioFile (LongSound me, int audioFileType, int channel, MelderFile file);
+./fon/LongSound.h-73-
+./fon/LongSound.h:74:void LongSound_readAudioToFloat (LongSound me, double **buffer, long firstSample, long numberOfSamples);
+./fon/LongSound.h:75:void LongSound_readAudioToShort (LongSound me, short *buffer, long firstSample, long numberOfSamples);
+./fon/LongSound.h-76-
+./fon/LongSound.h:77:void LongSound_concatenate (Collection collection, MelderFile file, int audioFileType, int numberOfBitsPerSamplePoint);
+./fon/LongSound.h:78:/* Concatenate a collection of Sound and LongSound objects. */
+./fon/LongSound.h-79-
+./fon/LongSound.h:80:void LongSound_preferences (void);
+./fon/LongSound.h:81:long LongSound_getBufferSizePref_seconds (void);
+./fon/LongSound.h:82:void LongSound_setBufferSizePref_seconds (long size);
+./fon/LongSound.h-83-
+./fon/LongSound.h:84:/* End of file LongSound.h */
+./fon/LongSound.h-85-#endif
