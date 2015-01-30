@@ -12,7 +12,7 @@
     "Create sound"              : "Create sound", 
         "Create pure tone"    : "Create pure tone",
         "Create complex tone" : "Create complex tone",
-        "Create from formula" : "Create from formula"
+        "Create from formula" : "Create from formula",
  "Open"           : "&Open", 
  "Save"           : "&Save", 
  "Help": "&Help"
