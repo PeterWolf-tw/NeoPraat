@@ -11,7 +11,7 @@ from PySide.QtGui import *
 # Every Qt application must have one and only one QApplication object;
 # it receives the command line arguments passed to the script, as they
 # can be used to customize the application's appearance and behavior
-qt_app = QApplication(sys.argv)
+
 
 class multiLanguage:
     def __init__(self):
@@ -78,5 +78,6 @@ class MainWindow(QWidget):
         
 if __name__ == '__main__':
     # Create an instance of the application window and run it
+    qt_app = QApplication(sys.argv)
     app = MainWindow()
     app.run()
