@@ -24,7 +24,7 @@ class multiLanguage:
         localeLIST = [x for x in os.listdir("./locale/") if x.endswith("json")]
     def languageSetting(self):
         return json.loads(open("./NeoPraat.cfg").read())["locale"]
-        
+
 
 class MainWindow(QWidget):
     ''' An example of PySide absolute positioning; the main window
@@ -32,7 +32,7 @@ class MainWindow(QWidget):
     def __init__(self):
         # Initialize the object as a QWidget
         QWidget.__init__(self)
- 
+
         # We have to set the size of the main window
         # ourselves, since we control the entire layout
         self.setMinimumSize(600, 700)
@@ -42,16 +42,16 @@ class MainWindow(QWidget):
         # their position individually; each row is a label followed by
         # another control
         mainLayout = QtGui.QVBoxLayout()
-        mainLayout.setMenuBar(self.menuBar) 
+        mainLayout.setMenuBar(self.menuBar)
         self.setLayout(mainLayout)
         # Label for the salutation chooser
-        
+
     def run(self):
         # Show the form
         self.show()
         # Run the Qt application
         qt_app.exec_()
-        
+
     def createMenu(self):
         multiLang = multiLanguage()
         locale = json.load(open("./locale/{0}.json".format(multiLang.languageSetting())))
@@ -65,17 +65,28 @@ class MainWindow(QWidget):
         self.preferences.addAction(locale["Sound Recording Preferences"])
         self.preferences.addAction(locale["Sound Playing Preferences"])
         self.preferences.addAction(locale["NeoPraat Preferences"])
-        self.exit          = self.neoPraatMenu.addAction(locale["Quit"])
-        
+        self.quit = self.neoPraatMenu.addAction(locale["Quit"])
+        self.newMenu = QtGui.QMenu(locale["New"])
+        self.newMenu.addAction(locale["Record mono track sound"])
+        self.newMenu.addAction(locale["Record stereo track sound"])
+        self.createMenu = self.newMenu.addMenu(locale["Create sound"])
+        self.createMenu.addAction(locale["Create pure tone"])
+        self.createMenu.addAction(locale["Create complex tone"])
+        self.createMenu.addAction(locale["Create sound from formula"])
+        self.createMenu.addAction(locale["Create sound from gamatone"])
+        self.createMenu.addAction(locale["Create sound from separd tone"])
+        self.createMenu.addAction(locale["Create sound from vowel editor"])
+        self.createMenu.addAction(locale["Create sound from speech synthesizer"])
         self.openMenu = QtGui.QMenu(locale["Open"])
         self.saveMenu = QtGui.QMenu(locale["Save"])
         self.helpMenu = QtGui.QMenu(locale["Help"])
         self.menuBar.addMenu(self.neoPraatMenu)
+        self.menuBar.addMenu(self.newMenu)
         self.menuBar.addMenu(self.openMenu)
         self.menuBar.addMenu(self.saveMenu)
         self.menuBar.addMenu(self.helpMenu)
 
-        
+
 if __name__ == '__main__':
     # Create an instance of the application window and run it
     qt_app = QApplication(sys.argv)
