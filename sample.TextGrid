@@ -1,0 +1,130 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0 
+xmax = 8.298684807256237 
+tiers? <exists> 
+size = 3 
+item []: 
+    item [1]:
+        class = "IntervalTier" 
+        name = "Mary" 
+        xmin = 0 
+        xmax = 8.298684807256237 
+        intervals: size = 19 
+        intervals [1]:
+            xmin = 0 
+            xmax = 1.0072539067342794 
+            text = "" 
+        intervals [2]:
+            xmin = 1.0072539067342794 
+            xmax = 1.29267436586948 
+            text = "2" 
+        intervals [3]:
+            xmin = 1.29267436586948 
+            xmax = 1.4929450760142868 
+            text = "8" 
+        intervals [4]:
+            xmin = 1.4929450760142868 
+            xmax = 1.7869796454980609 
+            text = "3" 
+        intervals [5]:
+            xmin = 1.7869796454980609 
+            xmax = 2.1490342479409454 
+            text = "3" 
+        intervals [6]:
+            xmin = 2.1490342479409454 
+            xmax = 2.351510655470896 
+            text = "5" 
+        intervals [7]:
+            xmin = 2.351510655470896 
+            xmax = 3.445405422611039 
+            text = "" 
+        intervals [8]:
+            xmin = 3.445405422611039 
+            xmax = 3.736567112286068 
+            text = "2" 
+        intervals [9]:
+            xmin = 3.736567112286068 
+            xmax = 3.9295552721872884 
+            text = "8" 
+        intervals [10]:
+            xmin = 3.9295552721872884 
+            xmax = 4.197898353113038 
+            text = "3" 
+        intervals [11]:
+            xmin = 4.197898353113038 
+            xmax = 4.541767529087508 
+            text = "3" 
+        intervals [12]:
+            xmin = 4.541767529087508 
+            xmax = 4.745994850023013 
+            text = "5" 
+        intervals [13]:
+            xmin = 4.745994850023013 
+            xmax = 5.850497054341548 
+            text = "" 
+        intervals [14]:
+            xmin = 5.850497054341548 
+            xmax = 6.147686039854929 
+            text = "2" 
+        intervals [15]:
+            xmin = 6.147686039854929 
+            xmax = 6.347152821997528 
+            text = "8" 
+        intervals [16]:
+            xmin = 6.347152821997528 
+            xmax = 6.623659571851238 
+            text = "3" 
+        intervals [17]:
+            xmin = 6.623659571851238 
+            xmax = 6.944268508501883 
+            text = "3" 
+        intervals [18]:
+            xmin = 6.944268508501883 
+            xmax = 7.099193936836987 
+            text = "5" 
+        intervals [19]:
+            xmin = 7.099193936836987 
+            xmax = 8.298684807256237 
+            text = "" 
+    item [2]:
+        class = "IntervalTier" 
+        name = "John" 
+        xmin = 0 
+        xmax = 8.298684807256237 
+        intervals: size = 7 
+        intervals [1]:
+            xmin = 0 
+            xmax = 1.0072539067342794 
+            text = "" 
+        intervals [2]:
+            xmin = 1.0072539067342794 
+            xmax = 2.351510655470896 
+            text = "t" 
+        intervals [3]:
+            xmin = 2.351510655470896 
+            xmax = 3.445405422611039 
+            text = "" 
+        intervals [4]:
+            xmin = 3.445405422611039 
+            xmax = 4.745994850023013 
+            text = "t" 
+        intervals [5]:
+            xmin = 4.745994850023013 
+            xmax = 5.850497054341548 
+            text = "" 
+        intervals [6]:
+            xmin = 5.850497054341548 
+            xmax = 7.099193936836987 
+            text = "t" 
+        intervals [7]:
+            xmin = 7.099193936836987 
+            xmax = 8.298684807256237 
+            text = "" 
+    item [3]:
+        class = "TextTier" 
+        name = "bell" 
+        xmin = 0 
+        xmax = 8.298684807256237 
+        points: size = 0 
